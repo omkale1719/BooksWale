@@ -1,0 +1,48 @@
+<style>
+   
+</style>
+
+<div class="quick-product">
+    <div class="container1">
+        <!-- Footer Links -->
+        <ul class="footer-links">
+            <li>
+                <a href="/cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="badge" id="cartbadge">
+                        <%= cartcount || 0 %>
+                    </span>
+                    Cart
+                </a>
+            </li>
+            <li>
+                <a href="/wishlist">
+                    <i class="fas fa-heart"></i>
+                    <span class="badge" id="wishlistbadge">
+                        <%= wishlistCount || 0 %>
+                    </span>
+                    Wishlist
+                </a>
+            </li>
+            <li>
+                <% if (!curruser) { %>
+                    <a href="/login">
+                        <i class="fas fa-user"></i>
+                        Login
+                    </a>
+                <% } else { %>
+                    <a href="/logout">
+                        <i class="fas fa-user-slash"></i>
+                        Logout
+                    </a>
+                <% } %>
+            </li>
+            <li>
+                <a href="/aboutus">
+                    <i class="fa-solid fa-eye"></i>
+                   About Us
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

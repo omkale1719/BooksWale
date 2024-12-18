@@ -1,0 +1,599 @@
+<% layout('./layouts/boilerplate') %>
+<body>
+
+    <br><br>
+    <h1  id="bestsellers" ><span>bestsellers</span></h1>
+    <br><br>
+    <div class="Books">
+        
+        <!-- Navigation Buttons -->
+        <button class="scroll-btn left-btn" id="prevBtn">&#8249;</button>
+        <!-- Scrollable Single Row -->
+        <div class="scroll-container" id="bookRow">
+            <% Book.forEach(function(book) { %>
+
+                <div class="custom-card" data-id="<%= book._id %>" >
+                    <!-- Product Link Wrapper -->
+                    <a href="javascript:void(0)">
+                     
+                        <!-- Product Image -->
+                        <img src="<%= book.image.url %>" alt="Product Image" class="custom-card-img" id="img-card">
+                        <div class="card-body">
+                            <!-- Product Title -->
+                            <h5 class="card-title" id="title-id"><%= book.title %></h5>
+                           
+                            <h6> <span style="color: black;">by &nbsp;</span><%= book.author %></h6>
+                            <p class="price getprice" data-id="<%= book._id %>" id="priceid"><%= book.price %></p>
+
+                            <p class="desc"><%= book.description %></p>
+
+                        </div>
+                    </a>
+                    <div class="showdetail">
+                        <a href="/show_d/<%= book._id %>/home"> 
+                            <div class="showdetailbtn">
+                                <span class="btn-text-front">View More</span>
+                                <span class="btn-text-back">Click Me!</span>
+                            </div></a>
+                     </div>
+                </div>
+
+
+               
+            <% }); %>
+             </div>
+
+        <!-- Navigation Buttons -->
+        <button class="scroll-btn right-btn" id="nextBtn">&#8250;</button>
+    </div>
+
+
+    <div  id="detailModal" class="modal" style="display: none;">
+        <div class="modal-content">
+             <!-- Wishlist Button -->
+      <div class="wishlist-button " style="top: 10px; right: 10px;">
+        <form action="/add-to-wishlist/home" method="POST"  class="wishlist-form" onsubmit="updateWishlistCount()";>
+            <input type="hidden" name="productId" value="<%= Book._id %>">
+            <button type="submit" class="heartBtn" style="border: none; background: none;">
+                <i class="fa-regular fa-heart heartIcon"></i>
+            </button>
+        </form>
+        </div>
+        <div class="closebtndiv">
+            <span class="close-btn">&times;</span>
+        </div>  
+          
+            <div class="card-img-div">
+                <img  src="" alt="Card Image" class="modal-card-img modal-image" id="p-i"/>
+            </div>
+            <div class="modal-card-content card-info">
+                <h2  class="modal-card-title modal-title" id="p-t"></h2>
+                <h4  class="modal-card-author modal-author" id="p-a"></h4>
+                <h3  class="moodel-card-price modal-price" id="p-p"></h3>
+                <div class="rating-stars">
+                    <span class="star" data-value="1">&#9733;</span>
+                    <span class="star" data-value="2">&#9733;</span>
+                    <span class="star" data-value="3">&#9733;</span>
+                    <span class="star" data-value="4">&#9733;</span>
+                    <span class="empty-star" data-value="5">&#9733;</span>
+                    4.0 (4)
+                </div>
+                <p  class="modal-card-description modal-description"></p>
+
+                <!-- Buttons -->
+
+              
+
+            </div>
+            
+        </div>
+        
+</div>
+        
+
+       
+
+
+    
+
+    <br><br>
+    <h1 id="fiction"> fiction</h1>
+    
+<br><br>
+     <br><br>
+    <div class="Books">
+        
+        <!-- Navigation Buttons -->
+        <button class="scroll-btn left-btn" id="prevBtn1">&#8249;</button>
+        <!-- Scrollable Single Row -->
+        <div class="scroll-container" id="bookRow1">
+            <% Fiction.forEach(function(book) { %>
+
+                <div class="custom-card" data-id="<%= book._id %>">
+                    <!-- Product Link Wrapper -->
+                    <a href="javascript:void(0)">
+                     
+                        <!-- Product Image -->
+                        <img src="<%= book.image.url %>" alt="Product Image" class="custom-card-img" id="img-card">
+                        <div class="card-body">
+                            <!-- Product Title -->
+                            <h5 class="card-title" id="title-id"><%= book.title %></h5>
+                           
+                            <h6> <span style="color: black;">by &nbsp;</span><%= book.author %></h6>
+                            <p class="price getprice" data-id="<%= book._id %>" id="priceid"><%= book.price %></p>
+
+                            <p class="desc"><%= book.description %></p>
+
+                        </div>
+                    </a>
+                    <div class="showdetail">
+                        <a href="/show_d/<%= book._id %>/fiction"> 
+                            <div class="showdetailbtn">
+                                <span class="btn-text-front">View More</span>
+                                <span class="btn-text-back">Click Me!</span>
+                            </div></a>
+                     </div>
+                </div>
+
+
+               
+            <% }); %>
+             </div>
+
+        <!-- Navigation Buttons -->
+        <button class="scroll-btn right-btn" id="nextBtn1">&#8250;</button>
+    </div>
+
+
+
+            <div id="detailModal1" class="modal" style="display: none;">
+                <div class="modal-content">
+                     <!-- Wishlist Button -->
+              <div class="wishlist-button " style="top: 10px; right: 10px;">
+                <form id="add-to-wishlist-form" action="/add-to-wishlist/fiction" method="POST"  class="wishlist-form" onsubmit="updateWishlistCount()";>
+                    <input type="hidden" name="productId" value="<%= Book._id %>">
+                    <button type="submit" class="heartBtn" style="border: none; background: none;">
+                        <i class="fa-regular fa-heart heartIcon"></i>
+                    </button>
+                </form>
+                </div>
+                <div class="closebtndiv">
+                    <span class="close-btn">&times;</span>
+                </div>  
+                  
+                    <div class="card-img-div">
+                        <img id="modalImage1" src="" alt="Card Image" class="modal-card-img modal-image" />
+                    </div>
+                    <div class="modal-card-content card-info">
+                        <h2 id="modalTitle1" class="modal-card-title modal-title"></h2>
+                        <h4 id="modalAuthor1" class="modal-card-author modal-author"></h4>
+                        <h3 id="modelprice1" class="moodel-card-price modal-price"></h3>
+                        <div class="rating-stars">
+                            <span class="star" data-value="1">&#9733;</span>
+                            <span class="star" data-value="2">&#9733;</span>
+                            <span class="star" data-value="3">&#9733;</span>
+                            <span class="star" data-value="4">&#9733;</span>
+                            <span class="empty-star" data-value="5">&#9733;</span>
+                            4.0 (4)
+                        </div>
+                        <p id="modalDescription1" class="modal-card-description modal-description"></p>
+                    </div>
+                </div>
+    </div>
+
+    <br><br>
+    <h1 id="Nonfiction">Nonfiction</h1><br><br>
+     <br><br>
+    <div class="Books">
+        
+        <!-- Navigation Buttons -->
+        <button class="scroll-btn left-btn" id="prevBtn2">&#8249;</button>
+        <!-- Scrollable Single Row -->
+        <div class="scroll-container" id="bookRow2">
+            <% Nonfiction.forEach(function(book) { %>
+
+                <div class="custom-card" data-id="<%= book._id %>">
+                    <!-- Product Link Wrapper -->
+                    <a href="javascript:void(0)">
+                     
+                        <!-- Product Image -->
+                        <img src="<%= book.image.url %>" alt="Product Image" class="custom-card-img" id="img-card">
+                        <div class="card-body">
+                            <!-- Product Title -->
+                            <h5 class="card-title" id="title-id"><%= book.title %></h5>
+                           
+                            <h6> <span style="color: black;">by &nbsp;</span><%= book.author %></h6>
+                            <p class="price getprice" data-id="<%= book._id %>" id="priceid"><%= book.price %></p>
+
+                            <p class="desc"><%= book.description %></p>
+
+                        </div>
+                    </a>
+                    <div class="showdetail">
+                        <a href="/show_d/<%= book._id %>/nonfiction"> 
+                            <div class="showdetailbtn">
+                                <span class="btn-text-front">View More</span>
+                                <span class="btn-text-back">Click Me!</span>
+                            </div></a>
+                     </div>
+                </div>
+
+
+               
+            <% }); %>
+             </div>
+
+        <!-- Navigation Buttons -->
+        <button class="scroll-btn right-btn" id="nextBtn2">&#8250;</button>
+    </div>
+
+
+
+            <div id="detailModal2" class="modal" style="display: none;">
+                <div class="modal-content">
+                     <!-- Wishlist Button -->
+              <div class="wishlist-button " style="top: 10px; right: 10px;">
+                <form  action="/add-to-wishlist/nonfiction" method="POST"  class="wishlist-form" onsubmit="updateWishlistCount()";>
+                    <input type="hidden" name="productId" value="<%= Book._id %>">
+                    <button type="submit" class="heartBtn" style="border: none; background: none;">
+                        <i class="fa-regular fa-heart heartIcon"></i>
+                    </button>
+                </form>
+                </div>
+                <div class="closebtndiv">
+                    <span class="close-btn">&times;</span>
+                </div>  
+                  
+                    <div class="card-img-div">
+                        <img  src="" alt="Card Image" class="modal-card-img modal-image" />
+                    </div>
+                    <div class="modal-card-content card-info">
+                        <h2  class="modal-card-title modal-title"></h2>
+                        <h4  class="modal-card-author modal-author"></h4>
+                        <h3  class="moodel-card-price modal-price"></h3>
+                        <div class="rating-stars">
+                            <span class="star" data-value="1">&#9733;</span>
+                            <span class="star" data-value="2">&#9733;</span>
+                            <span class="star" data-value="3">&#9733;</span>
+                            <span class="star" data-value="4">&#9733;</span>
+                            <span class="empty-star" data-value="5">&#9733;</span>
+                            4.0 (4)
+                        </div>
+                        <p  class="modal-card-description modal-description"></p>
+                    </div>
+                </div>
+    </div>
+
+    <br><br>
+    <h1 id="TA">Teen & YA</h1><br><br>
+     <br><br>
+    <div class="Books">
+        
+        <!-- Navigation Buttons -->
+        <button class="scroll-btn left-btn" id="prevBtn3">&#8249;</button>
+        <!-- Scrollable Single Row -->
+        <div class="scroll-container" id="bookRow3">
+            <% ty.forEach(function(book) { %>
+
+                <div class="custom-card" data-id="<%= book._id %>">
+                    <!-- Product Link Wrapper -->
+                    <a href="javascript:void(0)">
+                     
+                        <!-- Product Image -->
+                        <img src="<%= book.image.url %>" alt="Product Image" class="custom-card-img" id="img-card">
+                        <div class="card-body">
+                            <!-- Product Title -->
+                            <h5 class="card-title" id="title-id"><%= book.title %></h5>
+                           
+                            <h6> <span style="color: black;">by &nbsp;</span><%= book.author %></h6>
+                            <p class="price getprice" data-id="<%= book._id %>" id="priceid"><%= book.price %></p>
+
+                            <p class="desc"><%= book.description %></p>
+
+                        </div>
+                    </a>
+                    <div class="showdetail">
+                        <a href="/show_d/<%= book._id %>/TY"> 
+                            <div class="showdetailbtn">
+                                <span class="btn-text-front">View More</span>
+                                <span class="btn-text-back">Click Me!</span>
+                            </div></a>
+                     </div>
+                </div>
+
+
+               
+            <% }); %>
+             </div>
+
+        <!-- Navigation Buttons -->
+        <button class="scroll-btn right-btn" id="nextBtn3">&#8250;</button>
+    </div>
+
+
+
+            <div id="detailModal3" class="modal" style="display: none;">
+                <div class="modal-content">
+                     <!-- Wishlist Button -->
+              <div class="wishlist-button " style="top: 10px; right: 10px;">
+                <form  action="/add-to-wishlist/TY" method="POST"  class="wishlist-form" onsubmit="updateWishlistCount()";>
+                    <input type="hidden" name="productId" value="<%= Book._id %>">
+                    <button type="submit" class="heartBtn" style="border: none; background: none;">
+                        <i class="fa-regular fa-heart heartIcon"></i>
+                    </button>
+                </form>
+                </div>
+                <div class="closebtndiv">
+                    <span class="close-btn">&times;</span>
+                </div>  
+                  
+                    <div class="card-img-div">
+                        <img  src="" alt="Card Image" class="modal-card-img modal-image" />
+                    </div>
+                    <div class="modal-card-content card-info">
+                        <h2  class="modal-card-title modal-title"></h2>
+                        <h4  class="modal-card-author modal-author"></h4>
+                        <h3  class="moodel-card-price modal-price"></h3>
+                        <div class="rating-stars">
+                            <span class="star" data-value="1">&#9733;</span>
+                            <span class="star" data-value="2">&#9733;</span>
+                            <span class="star" data-value="3">&#9733;</span>
+                            <span class="star" data-value="4">&#9733;</span>
+                            <span class="empty-star" data-value="5">&#9733;</span>
+                            4.0 (4)
+                        </div>
+                        <p  class="modal-card-description modal-description"></p>
+                    </div>
+                </div>
+    </div>
+
+    <br><br>
+    <h1 id="Kids">Kids</h1><br><br>
+     <br><br>
+    <div class="Books">
+        
+        <!-- Navigation Buttons -->
+        <button class="scroll-btn left-btn" id="prevBtn4">&#8249;</button>
+        <!-- Scrollable Single Row -->
+        <div class="scroll-container" id="bookRow4">
+            <% Kids.forEach(function(book) { %>
+
+                <div class="custom-card" data-id="<%= book._id %>">
+                    <!-- Product Link Wrapper -->
+                    <a href="javascript:void(0)">
+                     
+                        <!-- Product Image -->
+                        <img src="<%= book.image.url %>" alt="Product Image" class="custom-card-img" id="img-card">
+                        <div class="card-body">
+                            <!-- Product Title -->
+                            <h5 class="card-title" id="title-id"><%= book.title %></h5>
+                           
+                            <h6> <span style="color: black;">by &nbsp;</span><%= book.author %></h6>
+                            <p class="price getprice" data-id="<%= book._id %>" id="priceid"><%= book.price %></p>
+
+                            <p class="desc"><%= book.description %></p>
+
+                        </div>
+                    </a>
+                    <div class="showdetail">
+                        <a href="/show_d/<%= book._id %>/kids"> 
+                            <div class="showdetailbtn">
+                                <span class="btn-text-front">View More</span>
+                                <span class="btn-text-back">Click Me!</span>
+                            </div></a>
+                     </div>
+                </div>
+
+
+               
+            <% }); %>
+             </div>
+
+        <!-- Navigation Buttons -->
+        <button class="scroll-btn right-btn" id="nextBtn4">&#8250;</button>
+    </div>
+
+
+
+            <div id="detailModal4" class="modal" style="display: none;">
+                <div class="modal-content">
+                     <!-- Wishlist Button -->
+              <div class="wishlist-button " style="top: 10px; right: 10px;">
+                <form  action="/add-to-wishlist/kids" method="POST"  class="wishlist-form" onsubmit="updateWishlistCount()";>
+                    <input type="hidden" name="productId" value="<%= Book._id %>">
+                    <button type="submit" class="heartBtn" style="border: none; background: none;">
+                        <i class="fa-regular fa-heart heartIcon"></i>
+                    </button>
+                </form>
+                </div>
+                <div class="closebtndiv">
+                    <span class="close-btn">&times;</span>
+                </div>  
+                  
+                    <div class="card-img-div">
+                        <img  src="" alt="Card Image" class="modal-card-img modal-image" />
+                    </div>
+                    <div class="modal-card-content card-info">
+                        <h2  class="modal-card-title modal-title"></h2>
+                        <h4  class="modal-card-author modal-author"></h4>
+                        <h3  class="moodel-card-price modal-price"></h3>
+                        <div class="rating-stars">
+                            <span class="star" data-value="1">&#9733;</span>
+                            <span class="star" data-value="2">&#9733;</span>
+                            <span class="star" data-value="3">&#9733;</span>
+                            <span class="star" data-value="4">&#9733;</span>
+                            <span class="empty-star" data-value="5">&#9733;</span>
+                            4.0 (4)
+                        </div>
+                        <p  class="modal-card-description modal-description"></p>
+                    </div>
+                </div>
+    </div>
+
+    <br><br>
+    <h1 id="RS">Relagious & Spirituals</h1><br><br>
+     <br><br>
+    <div class="Books">
+        
+        <!-- Navigation Buttons -->
+        <button class="scroll-btn left-btn" id="prevBtn5">&#8249;</button>
+        <!-- Scrollable Single Row -->
+        <div class="scroll-container" id="bookRow5">
+            <% rs.forEach(function(book) { %>
+
+                <div class="custom-card" data-id="<%= book._id %>">
+                    <!-- Product Link Wrapper -->
+                    <a href="javascript:void(0)">
+                     
+                        <!-- Product Image -->
+                        <img src="<%= book.image.url %>" alt="Product Image" class="custom-card-img" id="img-card">
+                        <div class="card-body">
+                            <!-- Product Title -->
+                            <h5 class="card-title" id="title-id"><%= book.title %></h5>
+                           
+                            <h6> <span style="color: black;">by &nbsp;</span><%= book.author %></h6>
+                            <p class="price getprice" data-id="<%= book._id %>" id="priceid"><%= book.price %></p>
+
+                            <p class="desc"><%= book.description %></p>
+
+                        </div>
+                    </a>
+                    <div class="showdetail">
+                        <a href="/show_d/<%= book._id %>/RS"> 
+                            <div class="showdetailbtn">
+                                <span class="btn-text-front">View More</span>
+                                <span class="btn-text-back">Click Me!</span>
+                            </div></a>
+                     </div>
+                </div>
+
+
+               
+            <% }); %>
+             </div>
+
+        <!-- Navigation Buttons -->
+        <button class="scroll-btn right-btn" id="nextBtn5">&#8250;</button>
+    </div>
+
+
+
+            <div id="detailModal5" class="modal" style="display: none;">
+                <div class="modal-content">
+                     <!-- Wishlist Button -->
+              <div class="wishlist-button " style="top: 10px; right: 10px;">
+                <form  action="/add-to-wishlist/RS" method="POST"  class="wishlist-form" onsubmit="updateWishlistCount()";>
+                    <input type="hidden" name="productId" value="<%= Book._id %>">
+                    <button type="submit" class="heartBtn" style="border: none; background: none;">
+                        <i class="fa-regular fa-heart heartIcon"></i>
+                    </button>
+                </form>
+                </div>
+                <div class="closebtndiv">
+                    <span class="close-btn">&times;</span>
+                </div>  
+                  
+                    <div class="card-img-div">
+                        <img  src="" alt="Card Image" class="modal-card-img modal-image" />
+                    </div>
+                    <div class="modal-card-content card-info">
+                        <h2  class="modal-card-title modal-title"></h2>
+                        <h4  class="modal-card-author modal-author"></h4>
+                        <h3  class="moodel-card-price modal-price"></h3>
+                        <div class="rating-stars">
+                            <span class="star" data-value="1">&#9733;</span>
+                            <span class="star" data-value="2">&#9733;</span>
+                            <span class="star" data-value="3">&#9733;</span>
+                            <span class="star" data-value="4">&#9733;</span>
+                            <span class="empty-star" data-value="5">&#9733;</span>
+                            4.0 (4)
+                        </div>
+                        <p  class="modal-card-description modal-description"></p>
+                    </div>
+                </div>
+    </div>
+
+    <br><br>
+    <h1 id="Academic">Academic</h1><br><br>
+     <br><br>
+    <div class="Books">
+        
+        <!-- Navigation Buttons -->
+        <button class="scroll-btn left-btn" id="prevBtn6">&#8249;</button>
+        <!-- Scrollable Single Row -->
+        <div class="scroll-container" id="bookRow6">
+            <% Academic.forEach(function(book) { %>
+
+                <div class="custom-card" data-id="<%= book._id %>">
+                    <!-- Product Link Wrapper -->
+                    <a href="javascript:void(0)">
+                     
+                        <!-- Product Image -->
+                        <img src="<%= book.image.url %>" alt="Product Image" class="custom-card-img" id="img-card">
+                        <div class="card-body">
+                            <!-- Product Title -->
+                            <h5 class="card-title" id="title-id"><%= book.title %></h5>
+                           
+                            <h6> <span style="color: black;">by &nbsp;</span><%= book.author %></h6>
+                            <p class="price getprice" data-id="<%= book._id %>" id="priceid"><%= book.price %></p>
+
+                            <p class="desc"><%= book.description %></p>
+
+                        </div>
+                    </a>
+                    <div class="showdetail">
+                        <a href="/show_d/<%= book._id %>/academic"> 
+                            <div class="showdetailbtn">
+                                <span class="btn-text-front">View More</span>
+                                <span class="btn-text-back">Click Me!</span>
+                            </div></a>
+                     </div>
+                </div>
+
+
+               
+            <% }); %>
+             </div>
+
+        <!-- Navigation Buttons -->
+        <button class="scroll-btn right-btn" id="nextBtn6">&#8250;</button>
+    </div>
+
+
+
+            <div id="detailModal6" class="modal" style="display: none;">
+                <div class="modal-content">
+                     <!-- Wishlist Button -->
+              <div class="wishlist-button " style="top: 10px; right: 10px;">
+                <form  action="/add-to-wishlist/academic" method="POST"  class="wishlist-form" onsubmit="updateWishlistCount()";>
+                    <input type="hidden" name="productId" value="<%= Book._id %>">
+                    <button type="submit" class="heartBtn" style="border: none; background: none;">
+                        <i class="fa-regular fa-heart heartIcon"></i>
+                    </button>
+                </form>
+                </div>
+                <div class="closebtndiv">
+                    <span class="close-btn">&times;</span>
+                </div>  
+                  
+                    <div class="card-img-div">
+                        <img  src="" alt="Card Image" class="modal-card-img modal-image" />
+                    </div>
+                    <div class="modal-card-content card-info">
+                        <h2  class="modal-card-title modal-title"></h2>
+                        <h4  class="modal-card-author modal-author"></h4>
+                        <h3  class="moodel-card-price modal-price"></h3>
+                        <div class="rating-stars">
+                            <span class="star" data-value="1">&#9733;</span>
+                            <span class="star" data-value="2">&#9733;</span>
+                            <span class="star" data-value="3">&#9733;</span>
+                            <span class="star" data-value="4">&#9733;</span>
+                            <span class="empty-star" data-value="5">&#9733;</span>
+                            4.0 (4)
+                        </div>
+                        <p  class="modal-card-description modal-description"></p>
+                    </div>
+                </div>
+    </div>
+
+</body>

@@ -1,0 +1,81 @@
+<% layout('./layouts/boilerplate') %>
+<link href="css/cart.css" rel="stylesheet">
+<body>
+
+    <div class="cart-container">
+        <% if (cart.length === 0) { %>
+
+            <div class="empty-cart">
+                <div class="cont">
+                    <h2>Your Cart is Empty</h2>
+                    <p>Your cart is currently empty. Start shopping and add products to your cart!</p>
+                    <img src="https://res.cloudinary.com/dsbxrs90o/image/upload/v1732470286/emptycart_vzr6kd.jpg" alt="Empty Cart" class="empty-image">
+                </div>
+                
+                <div class="cont2">
+                    <a href="/" class="btn-primary browse_product">Browse Products</a>
+                </div>
+                
+                
+            </div>
+        <% } else { %>
+           
+
+            
+            <div class="cart-items">
+                <h3>Shopping Cart</h3>
+                <div class="cart-item-cards">
+                    <% cart.forEach(item => { %>
+                        <a href="show_d/<%= item.productId %>/<%= item.category %>" class="no-underline">
+
+                        
+                        
+                        <div class="cart-item-card" >
+                            <div class="cart-item-image">
+                                <img src="<%= item.image ? item.image : '/images/default-image.jpg' %>" alt="<%= item.title %>" class="img-fluid">
+                            </div>
+                            <div class="cart-item-details" >
+                               
+                                <h4 class="cart-item-title"><%= item.title %></h4>
+                                <p class="cart-item-author">By: <%= item.author %></p>
+                                <p class="cart-item-price">Price: &#8377;<%= item.price.toLocaleString("en-IN") %></p>
+                                <p class="cart-item-quantity">Quantity: <%= item.quantity %></p>
+                                <!-- <p class="cart-item-total">Total: &#8377;<%= (item.price * item.quantity).toLocaleString("en-IN") %></p> -->
+                                <form action="/remove-from-cart" method="POST" onsubmit="return confirm('Are you sure you want to remove this item?');">
+                                    <input type="hidden" name="productId" value="<%= item.productId %>">
+                                    <button type="submit" class="btn-delete"><i class="fa-solid fa-xmark"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </a>
+                    <% }); %>
+                </div>
+                <!-- <div class="cart-summary">
+                    <p>
+                        <strong>Total Amount: &#8377;<%= cart.reduce((acc, item) => {
+                            const price = Number(item.price) || 0; // Ensure price is a number
+                            const quantity = Number(item.quantity) || 0; // Ensure quantity is a number
+                            return acc + (price * quantity);
+                        }, 0).toLocaleString("en-IN") %></strong>
+                    </p>
+                </div> -->
+                
+                </div>
+                <div class="cart-actions">
+                    <a href="/" class="btn-secondary">Continue Shopping</a>
+                    <!-- <a class="btn-primary" onclick="goBack()">Proceed to Checkout</a> -->
+                </div>
+            </div>
+        <% } %>
+    </div>
+
+    <script>
+        function goBack() {
+            if (document.referrer) {
+                window.location.href = document.referrer; // Redirect to the previous page
+            } else {
+                window.history.back(); // Use browser history as fallback
+            }
+        }
+    </script>
+</body>

@@ -1,0 +1,37 @@
+
+<% layout('./layouts/boilerplate') %>
+<%= success %>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Your Wishlist</h2>
+
+    <% if (wishlist.length > 0) { %>
+        <div class="row g-4 justify-content-center">
+            <% wishlist.forEach(function(item) { %>
+                <div class="col-lg-3 col-md-4 col-sm-6 d-flex justify-content-center">
+                    <div class="card shadow-sm" style="width: 16rem;">
+                        <img src="<%= item.image.url %>" class="card-img-top" alt="<%= item.title %>" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title text-center"><%= item.title %></h5>
+                            <p class="card-text text-center text-muted">&#8377;<%= item.price.toLocaleString("en-IN") %></p>
+
+                            <div class="d-grid gap-2">
+                              
+                            <form id="remove-from-wishlist-form" action="/remove-from-wishlist" method="POST" onsubmit="updateWishlistCount()">
+                                <input type="hidden" name="productId" value="<%= item._id %>">
+                                <button type="submit" class="heartBtn" style="border: none; background: none;">
+                                    <i class="fa-solid fa-heart-broken heartIcon"></i>
+                                    <button type="button" class="btn btn-success mb-2" style="margin-left: 15px;" onclick="buyNow()">
+                                        <i class="fas fa-bolt"></i> Checkout </button>
+                            </form>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <div class="alert alert-info text-center">
+            <p>Your wishlist is empty. Start adding your favorite items!</p>
+        </div>
+    <% } %>
+</div>

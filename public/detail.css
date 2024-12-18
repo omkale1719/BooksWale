@@ -1,0 +1,261 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    overflow: auto;
+    animation: modalFadeIn 0.5s ease-in-out;
+}
+
+.modal-content {
+    margin-top: 115px;
+    background-color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column; /* Stack content vertically for small screens */
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%; /* Default width for responsiveness */
+    max-width: 800px; /* Limit max-width */
+    max-height: 90vh;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow-y: auto;
+    animation: cardSlideUp 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.card-img-div {
+    flex: 1; /* Ensure equal width for image and content */
+    width: 100%;
+    max-height: 300px; /* Cap image height */
+    text-align: center;
+    margin-bottom: 10px; /* Add spacing between stacked elements */
+}
+
+.modal-card-img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
+    object-fit: cover; /* Crop image to fit container */
+}
+
+.card-info {
+    flex: 2; /* Content takes up more space */
+    padding: 10px;
+    width: 100%; /* Full width for small screens */
+    text-align: left;
+}
+
+.modal-card-title {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+}
+
+.modal-card-author {
+    font-size: 1em;
+    color: green;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.modal-card-description {
+    margin-top: 10px;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+.rating-stars {
+    display: flex;
+    gap: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.wishlist-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.closebtndiv {
+    position: absolute;
+    top: -5px;
+    right: 35px;
+}
+
+.close-btn {
+    background-color: rgba(251, 248, 248, 0.7);
+    color: rgb(11, 0, 0);
+    font-size: 30px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    position: fixed;
+}
+
+.close-btn:hover{
+    background-color: red;
+    border-radius: 50%;
+}
+
+.rating-stars {
+    display: flex;
+    gap: 5px;
+    font-size: 24px; /* Adjust size as needed */
+    cursor: pointer;
+}
+
+.star {
+    color: #f5a623; /* Gray for unselected stars */
+    transition: color 0.3s;
+}
+
+.empty-star {
+    color: #ccc;
+}
+
+.wishlist-button {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.heartBtn {
+    border: none;
+    background: none;
+    padding: 0;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    top: -23px;
+    transition: transform 0.3s ease;
+}
+
+@media(max-width:448px){
+    .heartBtn {
+        position: absolute;
+        top: -23px;
+        left: 1%;
+
+    }
+}
+.heartIcon {
+    color: rgba(0, 0, 0, 0.486);
+    font-size: 24px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.heartBtn:hover .heartIcon {
+    color: red;
+    transform: scale(1.1);
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+.heartBtn:hover {
+    animation: bounce 0.2s;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.heartBtn:hover {
+    background-color: rgba(255, 0, 0, 0.1);
+    border-radius: 50%;
+}
+
+/* Animation for modal appearance */
+@keyframes modalFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Animation for card sliding from bottom */
+@keyframes cardSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation for modal fade-out */
+@keyframes modalFadeOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+.modal.fade-out {
+    animation: modalFadeOut 0.5s ease-in-out;
+}
+
+
+
+
+@media (min-width: 768px) {
+    .modal-content {
+        flex-direction: row; /* Side-by-side layout for larger screens */
+    }
+
+    .card-img-div {
+        max-height: 100%; /* Image takes full height */
+        margin-bottom: 0; /* Remove spacing */
+    }
+
+    .card-info {
+        padding-left: 20px; /* Add spacing between image and text */
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-card-title {
+        font-size: 1.5em;
+    }
+
+    .modal-card-author {
+        font-size: 0.9em;
+    }
+
+    .rating-stars {
+        font-size: 18px;
+    }
+}

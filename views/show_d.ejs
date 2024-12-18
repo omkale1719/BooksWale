@@ -1,0 +1,207 @@
+<% layout('./layouts/boilerplate1') %>
+
+<body>
+    <div class="product-detail container my-5">
+        <div class="row">
+            <!-- Left Column: Product Image -->
+            <div class="col-lg-6 text-center">
+                <div class="image-container p-3 border rounded shadow-sm">
+                    <img src="<%= Book && Book.image ? Book.image.url : '/images/default-image.jpg' %>" alt="Product Image" class="img-fluid rounded" id="pro-img">
+                
+
+                    
+                </div>
+               
+                
+            </div>
+
+            <!-- Right Column: Product Details -->
+            <div class="col-lg-6">
+                <div class="product-info p-4 border rounded shadow-sm">
+                    <!-- Title -->
+                   <h2 id="cat_id" style="display: none;"><%= category %></h2>
+                    <h1 class="product-title mb-3" id="pro-title"><%= Book && Book.title ? Book.title : 'No Title Available' %></h1>
+                    <!-- Author -->
+                     <h3 class="mb-3" id="pro-author"><span style="color:blue">by -</span> <%= Book.author %></h3>
+                    <!-- Price -->
+                    <div class="price-section d-flex align-items-center mb-2">
+                        <h4 class="  text-primary mb-0 " id="pro-price">&#8377;<%= Book && Book.price ? Book.price : 'Price Not Available' %></h4>
+                        <span class="badge badge-danger ml-3">On Sale</span>
+                    </div>
+                    
+                    <p class="text-muted small">Inclusive of all taxes</p>
+
+                     <!-- Quantity Section -->
+                <p>Quantity</p>
+                <div class="input-group mb-3 w-100 w-md-50">
+                    <button class="btn btn-outline-secondary" type="button" onclick="decreaseValue()">-</button>
+                    <input type="number" id="quantity" class="form-control text-center" value="1" min="1" max="10">
+                    <button class="btn btn-outline-secondary" type="button" onclick="increaseValue()">+</button>
+                </div>
+                
+                    <!-- Delivery Check -->
+                    <div class="delivery-check mt-4">
+                        <p class="font-weight-bold">Check delivery at your location <i class="fas fa-truck ml-2"></i></p>
+                        <div class="input-group">
+                            <input type="number" class="form-control" placeholder="Enter your pincode" name="pincode">
+                            
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button" onclick="checkDelivery()">Check</button>
+                            </div>
+                        </div>
+                    </div>
+
+ <!-- Buttons -->
+ <div class="action-buttons mt-4">
+    <form>
+        <input type="hidden" id="product-id" value="<%= Book._id %>">
+        <div class="d-flex flex-wrap">
+            <button type="button" class="btn btn-outline-primary mr-2 mb-2" onclick="addToCart()">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+            <button type="button" class="btn btn-success mb-2" onclick="buyNow()">
+                <i class="fas fa-bolt"></i> Buy Now
+            </button>
+        </div>
+    </form>
+</div>                   
+
+                    <!-- Description -->
+                    <div class="product-description mt-4">
+                        <h5>Description</h5>
+                        <p class="text-muted"><%= Book && Book.description ? Book.description : 'No description available' %></p>
+                    </div>
+
+                    
+                </div>
+                <% if(!curruser){ %>
+                <a href="/add_new_review"><button type="button" class="btn btn-secondary">Add Review</button></a>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+
+   <!-- Review Section -->
+<div class="col-10 offset-1">
+    <% if(curruser){ %>
+    <h4 id="reviewsId" class="text-center mt-4">Leave a Review</h4>
+    <form 
+        method="post" 
+        action="/reviews/<%= category %>/<%= Book._id %>/views" 
+        class="needs-validation form-class" 
+        novalidate>
+        
+        <!-- Star Rating Input -->
+        <div class="mb-4 star-rating">
+            <label for="rating" class="form-label d-block">Rating</label>
+            <div class="stars">
+                <input type="radio" id="star5" name="review[rating]" value="5" required>
+                <label for="star5" title="5 stars">&#9733;</label>
+                <input type="radio" id="star4" name="review[rating]" value="4">
+                <label for="star4" title="4 stars">&#9733;</label>
+                <input type="radio" id="star3" name="review[rating]" value="3">
+                <label for="star3" title="3 stars">&#9733;</label>
+                <input type="radio" id="star2" name="review[rating]" value="2">
+                <label for="star2" title="2 stars">&#9733;</label>
+                <input type="radio" id="star1" name="review[rating]" value="1">
+                <label for="star1" title="1 star">&#9733;</label>
+            </div>
+            <div class="invalid-feedback">
+                Please select a rating.
+            </div>
+        </div>
+
+        <!-- Comment Input -->
+        <div class="mb-4">
+            <label for="commit" class="form-label">Comment</label>
+            <textarea 
+                name="review[comment]" 
+                id="commit" 
+                class="form-control" 
+                rows="5" 
+                placeholder="Write your review here..." 
+                required></textarea>
+            <div class="invalid-feedback">
+                Please enter a comment.
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary w-100">Submit</button>
+    </form>
+
+
+
+    <!-- Reviews List -->
+    <div class="reviews-container mt-5">
+        <h4 class="text-center">All Reviews</h4>
+        <% } %>
+        <ul class="list-unstyled mt-3">
+            <% for (let review of Book.reviews) { %>
+                <li class="mb-4 p-3 rounded shadow-sm bg-light">
+                    <div class="review-comment mb-2">
+                        <h3>Owner: <%= review.owner ? review.owner.username : "No Owner" %></h3>
+                        <strong>Comment:</strong> <%= review.comment %>
+                    </div>
+                    <div class="review-rating text-warning">
+                        <strong>Rating:</strong>
+                        <span>
+                            <% for (let i = 5; i >= 1; i--) { %>
+                                <%= i <= review.rating ? '★' : '☆' %>
+                            <% } %>
+                        </span>
+                    </div>
+                    <form method="post" action="/reviews/<%= category %>/<%=Book._id %>/views/<%= review._id %>?_method=DELETE"  onsubmit="return confirmDelete()">
+                        <button class="btn btn-sm btn-danger mt-2">Delete</button>
+                    </form>
+                </li>
+            <% } %>
+        </ul>
+    </div>
+    
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+
+        
+
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this review?");
+        }
+        
+
+
+
+         // Bootstrap validation script
+        (function () {
+            'use strict';
+            const forms = document.querySelectorAll('.needs-validation');
+    
+            Array.from(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+    
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+  
+
+
+    <div id="snackbar"></div>
+</body>

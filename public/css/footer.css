@@ -1,0 +1,497 @@
+/* Footer Styling */
+footer {
+    background: linear-gradient(90deg,#3CAB88, #40c098); /* Gradient with purple and blue shades */
+    color: #f3f4f6; /* Light gray for contrast */
+    padding: 40px 20px;
+    font-family: 'Arial', sans-serif;
+    animation: fadeInFooter 2s ease-in-out;
+    text-align: center;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.25); /* Slight shadow for a floating effect */
+}
+/* Keyframe Animation for Footer */
+@keyframes fadeInFooter {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-section {
+    flex: 1;
+    margin: 10px 20px;
+    min-width: 250px;
+    animation: slideIn 1s ease-out;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.footer-section h4 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #fff;
+    padding-bottom: 10px;
+    color: #161401;
+    animation: bounceTitle 1.5s infinite alternate;
+}
+
+/* Bounce Animation for Title */
+@keyframes bounceTitle {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-10px);
+    }
+}
+
+.footer-section ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.footer-section ul li a:hover {
+    color: #ffeb3b;
+    text-decoration: underline;
+    transform: scale(1.1);
+}
+
+.social-icons a {
+    padding: 20px;
+    color: #fff;
+    font-size: 1.5rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+/* Pulse Animation for Social Icons */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.social-icons a:hover {
+   
+    text-shadow: 0 0 5px #f9f4ca, 0 0 5px #f9f4ca, 0 0 5px #f9f4ca;
+    animation: shake 0.5s ease-in-out, glow 1s infinite alternate;
+}
+
+/* Shake Animation */
+@keyframes shake {
+    0%, 100% {
+        transform: scale(1.3) rotate(10deg) translateX(0);
+    }
+    25% {
+        transform: scale(1.3) rotate(10deg) translateX(-5px);
+    }
+    50% {
+        transform: scale(1.3) rotate(10deg) translateX(5px);
+    }
+    75% {
+        transform: scale(1.3) rotate(10deg) translateX(-5px);
+    }
+}
+
+/* Glow Animation */
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 5px #ffeb3b, 0 0 10px #ffeb3b, 0 0 20px #ffeb3b;
+    }
+    100% {
+        text-shadow: 0 0 15px #ffeb3b, 0 0 25px #ffeb3b, 0 0 40px #ffeb3b;
+    }
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    border-top: 1px solid #fff;
+    padding-top: 10px;
+    font-size: 0.85rem;
+    color: #ccc;
+    animation: fadeInBottom 2s ease-in-out;
+}
+
+@keyframes fadeInBottom {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Footer 2 */
+
+
+.quick-product {
+    display: none; /* Default visibility hidden */
+}
+
+.container1 {
+    background-color: #333; /* Dark background */
+    color: #fff; /* White text */
+    padding: 10px 0;
+    text-align: center; /* Center alignment */
+}
+
+.footer-links {
+    display: flex; /* Flexbox layout */
+    justify-content: space-around; /* Equal space between elements */
+    align-items: center; /* Vertical alignment */
+    padding: 0;
+    margin: 0;
+    list-style: none; /* Remove bullets */
+}
+
+.footer-links li {
+    text-align: center;
+    flex: 1; /* Equal space for all items */
+}
+
+.footer-links a {
+    color: #fff; /* White text */
+    text-decoration: none; /* Remove underline */
+    font-size: 14px;
+    display: flex;
+    flex-direction: column; /* Icon above text */
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-links a:hover {
+    color: #FFD700; /* Gold color on hover */
+}
+
+.footer-links i {
+    font-size: 1.8rem; /* Icon size */
+    margin-bottom: 5px;
+}
+
+.footer-links .badge {
+    font-size: 0.8rem; /* Badge size */
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #dc3545; /* Red badge */
+    color: #fff;
+    border-radius: 50%;
+    padding: 3px 6px;
+}
+
+#cartbadge{
+    padding: 5px 10px; /* Adds spacing inside the badge */
+color: white; /* Text color */
+background-color: red; /* Add a background for better visibility */
+border-radius: 10px; /* Gives the badge rounded corners */
+animation: pulse 1s infinite; /* Applies a continuous animation */
+position: absolute; /* Positions the badge relative to its parent */
+top: -15px; /* Vertical position */
+right: 300px; /* Horizontal position */
+box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Adds subtle shadow for a 3D effect */
+font-weight: bold; /* Makes the text bold */
+z-index: 10; /* Ensures it appears above other elements */
+}
+
+#wishlistbadge{
+    padding: 5px 10px; /* Adds spacing inside the badge */
+    color: white; /* Text color */
+    background-color: red; /* Add a background for better visibility */
+      border-radius: 10px; /* Gives the badge rounded corners */
+      animation: pulse 1s infinite; /* Applies a continuous animation */
+      position: absolute; /* Positions the badge relative to its parent */
+      top: -12px; /* Vertical position */
+      right: 170px; /* Horizontal position */
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Adds subtle shadow for a 3D effect */
+      font-weight: bold; /* Makes the text bold */
+      z-index: 10; /* Ensures it appears above other elements */
+
+}
+@media (max-width: 991px) {
+    .quick-product {
+        display: block; /* Visible on mobile/tablet */
+        position: sticky; /* Sticky footer */
+        bottom: 0;
+        width: 100%; /* Full width */
+        z-index: 1000; /* Ensure it stays on top */
+    }
+
+    #cartbadge {
+        position: absolute; /* Positions the badge relative to its parent */
+        top: -15px; /* Vertical position */
+        right: 81%; /* Relative to the container width */
+    }
+
+    #wishlistbadge {
+        position: absolute; /* Positions the badge relative to its parent */
+        top: -12px; /* Vertical position */
+        right: 57%; /* Adjust for proper placement */
+        transform: translateX(50%); /* Center-aligns based on position */
+    }
+    .aboutus,.QuickLinks{
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .quick-product {
+        display: block; /* Visible on mobile */
+        position: sticky; /* Sticky footer */
+        bottom: 0;
+        width: 100%; /* Full width */
+        z-index: 1000; /* Ensure it stays on top */
+    }
+
+    #cartbadge {
+        position: absolute; /* Positions the badge relative to its parent */
+        top: -15px; /* Vertical position */
+        right: 75%; /* Adjust relative to smaller screens */
+    }
+
+    #wishlistbadge {
+        position: absolute; /* Positions the badge relative to its parent */
+        top: -12px; /* Vertical position */
+        right: 52%; /* Adjust for smaller screens */
+        transform: translateX(50%); /* Center-aligns based on position */
+    }
+    .aboutus, .QuickLinks{
+        display: none;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* About Us Section */
+.about-us {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 60px 10%;
+    text-align: center;
+}
+
+.about-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.about-content {
+    text-align: left;
+    animation: fadeInLeft 1s ease-in-out;
+}
+
+.about-content h1 {
+    font-size: 3rem;
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+.about-content span {
+    color: #ff9800;
+}
+
+.about-content p {
+    line-height: 1.8;
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+.about-content button {
+    margin-top: 20px;
+    padding: 10px 25px;
+    background: #ff9800;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.about-content button:hover {
+    background: #343a40;
+    color: #ff9800;
+}
+
+.about-image img {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    animation: fadeInRight 1s ease-in-out;
+}
+
+/* Why Choose Us Section */
+.why-choose-us {
+    background-color: #fff;
+    padding: 60px 10%;
+    text-align: center;
+}
+
+.why-choose-us h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: #343a40;
+    position: relative;
+    display: inline-block;
+}
+
+.why-choose-us h2::after {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 4px;
+    background: #ff9800;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    justify-content: center;
+}
+
+.feature-box {
+    padding: 30px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: #f8f9fa;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-box i {
+    font-size: 3rem;
+    color: #ff9800;
+    margin-bottom: 15px;
+}
+
+.feature-box h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: #343a40;
+}
+
+.feature-box p {
+    font-size: 1rem;
+    color: #6c757d;
+    line-height: 1.5;
+}
+
+.feature-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Animations */
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .about-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .about-content {
+        text-align: center;
+    }
+
+    .about-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .why-choose-us h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .about-content h1 {
+        font-size: 2rem;
+    }
+
+    .about-content p,
+    .feature-box p {
+        font-size: 0.9rem;
+    }
+}
