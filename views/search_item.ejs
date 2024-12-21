@@ -1,0 +1,198 @@
+<% layout('./layouts/boilerplate1') %>
+<style>
+
+
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Container for Books Section */
+  .Books.search-book {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  /* Card Styles */
+  .custom-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .custom-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Image Styles */
+  .custom-card-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Card Body Styles */
+  .card-body {
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .card-title {
+    font-size: 5px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .card-body h6 {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  
+  .price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #e74c3c;
+    margin: 10px 0;
+  }
+  
+  .desc {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+  }
+  
+  /* Button Styles */
+  .showdetailbtn {
+    background: linear-gradient(90deg, #4CAF50, #45A049);
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    display: inline-block;
+    transition: background 0.3s ease;
+  }
+  
+  .showdetailbtn:hover {
+    background: linear-gradient(90deg, #45A049, #4CAF50);
+  }
+  
+  .btn-text-front,
+  .btn-text-back {
+    display: inline-block;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .showdetailbtn:hover .btn-text-front {
+    transform: translateY(-100%);
+  }
+  
+  .showdetailbtn:hover .btn-text-back {
+    transform: translateY(0);
+  }
+  
+  /* Delete Button Styles */
+  form .btn-danger {
+    background: #e74c3c;
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  form .btn-danger:hover {
+    background: #c0392b;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .custom-card {
+      width: 90%; /* Full width on smaller screens */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .card-title {
+      font-size: 16px;
+    }
+  
+    .price {
+      font-size: 14px;
+    }
+  
+    .desc {
+      font-size: 12px;
+    }
+  }
+  
+
+
+</style>
+<div class="Books search-book">
+      
+    <!-- Navigation Buttons -->
+    <!-- <button class="scroll-btn left-btn" id="prevBtn4">&#8249;</button> -->
+    <!-- Scrollable Single Row -->
+    <!-- <div class="scroll-container" id="bookRow4"> -->
+        <% search.forEach(function(book) { %>
+
+<div class="custom-card search-card" >
+    <!-- Product Link Wrapper -->
+    
+     
+        <!-- Product Image -->
+        <img src="<%= book.image.url %>" alt="Product Image" class="custom-card-img" id="img-card">
+        <div class="card-body">
+            <!-- Product Title -->
+            <h5 class="card-title" id="title-id"><%= book.title %></h5>
+           
+            <h6> <span style="color: black;">by &nbsp;</span><%= book.author %></h6>
+            <p class="price getprice" data-id="<%= book._id %>" id="priceid"><%= book.price %></p>
+
+            <p class="desc"><%= book.description %></p>
+
+        </div>
+    </a>
+    <div class="showdetail">
+        <a onclick="alert('SOORY! The page is under construction.')"> 
+            <div class="showdetailbtn">
+                <span class="btn-text-front">View More</span>
+                <span class="btn-text-back">Click Me!</span>
+            </div>
+     </div>
+     <form action="/delete-search-item" method="POST" style="display: inline;">
+        <input type="hidden" name="title" value="<%= book.title %>" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+</div>
+
+
+
+<% }); %>
+<!-- </div> -->
+
+</div>

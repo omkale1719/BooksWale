@@ -1,8 +1,8 @@
 const mongoose=require("mongoose");
 const initdata=require("./kids_data.js");
 const Kids=require("../models/kids.js");
+const mongoUrl="mongodb+srv://omkale0107:KpQXxecPPRt7WAin@cluster0.9e6ps.mongodb.net/litbazzar?retryWrites=true&w=majority";
 
-const mongoUrl="mongodb://127.0.0.1:27017/LitBazaar";
 
 async function main(){
   try {

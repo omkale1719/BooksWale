@@ -2,7 +2,7 @@ const mongoose=require("mongoose");
 const initdata=require("./home_data.js");
 const home=require("../models/home.js");
 
-const mongoUrl="mongodb://127.0.0.1:27017/LitBazaar";
+const mongoUrl="mongodb+srv://omkale0107:KpQXxecPPRt7WAin@cluster0.9e6ps.mongodb.net/litbazzar?retryWrites=true&w=majority";
 
 async function main(){
   try {

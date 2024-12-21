@@ -2,18 +2,15 @@
 .navbar {
     padding: 15px 20px;
     background: linear-gradient(90deg,#3CAB88, #3CAB88);
-    /* Beautiful Gradient */
-    color: #ffffff; /* White Text */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light Shadow */
+    color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease, background 0.5s ease;
 }
 
 .navbar:hover {
-    background: linear-gradient(90deg,#3CAB88, #3CAB88);/* Hover effect with reverse gradient */
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Slightly darker shadow */
+    background: linear-gradient(90deg,#3CAB88, #3CAB88);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
-
-
 
 /* Logo Animation */
 .navbar-brand{
@@ -37,14 +34,15 @@ margin-top: -55px;
 .navbar-brand img:hover {
     transform: rotate(360deg);
 }
+
 /* Search Bar */
 .search-bar input {
-    border: 2px solid #adb5bd; /* Light Gray */
+    border: 2px solid #adb5bd;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .search-bar input:focus {
-    border-color: rgb(0, 1, 9); /* Green */
+    border-color: rgb(0, 1, 9);
     box-shadow: 0px 0px 5px rgba(25, 135, 84, 0.5);
     outline: none;
 }
@@ -57,8 +55,8 @@ margin-top: -55px;
 }
 
 .search-bar button:hover {
-    background-color: rgb(0, 0, 8); /* Green */
-    color: #f8f9fa; /* Light Gray */
+    background-color: rgb(0, 0, 8);
+    color: #f8f9fa;
     transform: scale(1.1);
 }
 
@@ -66,53 +64,49 @@ margin-top: -55px;
 .navbar-nav .nav-link {
     font-size: 1rem;
     font-weight: 500;
-    color: #fff; /* Light Gray */
+    color: #fff;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .navbar-nav .nav-link:hover {
-    
-    color: #fff; /* Vibrant Yellowish
-    /* Yellow */
+    color: #fff;
     transform: translateY(-3px) rotate(-2deg);
-   
 }
 
 .navbar-nav .pro {
     font-size: 1.2em;
     font-weight: 500;
-    color: #fff; /* Light Gray */
+    color: #fff;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
 /* Wishlist Badge Styling */
 #wishlist-count {
-     padding: 5px 10px; /* Adds spacing inside the badge */
-    color: white; /* Text color */
-    background-color: red; /* Add a background for better visibility */
-    border-radius: 10px; /* Gives the badge rounded corners */
-    animation: pulse 1s infinite; /* Applies a continuous animation */
-    position: absolute; /* Positions the badge relative to its parent */
-    top: 10px; /* Vertical position */
-    right: -3px; /* Horizontal position */
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Adds subtle shadow for a 3D effect */
-    font-weight: bold; /* Makes the text bold */
-    z-index: 10; /* Ensures it appears above other elements */
+     padding: 5px 10px;
+    color: white;
+    background-color: red;
+    border-radius: 10px;
+    animation: pulse 1s infinite;
+    position: absolute;
+    top: 6px;
+    right: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+    z-index: 10;
 }
 
 #cart-count{
-
-  padding: 5px 10px; /* Adds spacing inside the badge */
-  color: white; /* Text color */
-  background-color: red; /* Add a background for better visibility */
-    border-radius: 10px; /* Gives the badge rounded corners */
-    animation: pulse 1s infinite; /* Applies a continuous animation */
-    position: absolute; /* Positions the badge relative to its parent */
-    top: 40px; /* Vertical position */
-    right: 21px; /* Horizontal position */
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Adds subtle shadow for a 3D effect */
-    font-weight: bold; /* Makes the text bold */
-    z-index: 10; /* Ensures it appears above other elements */
+  padding: 5px 10px;
+  color: white;
+  background-color: red;
+    border-radius: 10px;
+    animation: pulse 1s infinite;
+    position: absolute;
+    top: 6px;
+    right: -8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+    z-index: 10;
 }
 
 /* Keyframes for pulse animation */
@@ -128,24 +122,21 @@ margin-top: -55px;
 }
 
 #user {
-  
     color: white;
     padding: 20px;
-    width: 35px; /* Adjust width for the user icon */
-    height: 35px; /* Adjust height for the user icon */
-    border-radius: 50%; /* Makes the icon circular */
-    box-shadow: 0px 10px 13px rgba(0, 0, 0, 0.5); /* Softer shadow with transparency */
-    background-color:rgba(255, 255, 255, 0.408); /* Background color for the icon */
-    display: flex; /* Center content inside the icon */
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    box-shadow: 0px 10px 13px rgba(0, 0, 0, 0.5);
+    background-color:rgba(255, 255, 255, 0.408);
+    display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* Ensures any overflow is clipped */
-    border: 2px solid #ccc; /* Optional border for style */
+    overflow: hidden;
+    border: 2px solid #ccc;
     margin-bottom: -20px;
 }
 
-
- 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .navbar {
@@ -177,8 +168,8 @@ margin-top: -55px;
         width: 200px;
         max-height: 60vh;
         overflow-y: auto;
-        background-color: #2c3e50; /* Dark Blue-Gray */
-        color: #f8f9fa; /* Light Gray */
+        background-color: #2c3e50;
+        color: #f8f9fa;
         padding: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         z-index: 1040;
@@ -190,19 +181,16 @@ margin-top: -55px;
     .menu-list.show {
         display: block;
     }
-    
 }
+
 .fa-solid, .fa-barsr{
     font-size: 2rem;
    margin: 0 30px 20px 0;
-
 }
-
 
 .menu.show {
     display: block;
 }
-
 
 /* Section Animations */
 @keyframes fadeIn {

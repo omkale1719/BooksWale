@@ -40,6 +40,9 @@
           </button>
         </form><br>
 
+        <ul class="navbar-nav mx-auto mt-3 mt-lg-0 justify-content-center">
+         
+
 
         <ul class="navbar-nav mx-auto mt-3 mt-lg-0 justify-content-center">
           <li class="nav-item">
@@ -68,63 +71,66 @@
         
       </div>
 
+      
       <!-- Product Categories -->
-      <div class="container-fluid product-category" style=" max-width: 25%; margin: 0 auto;">
-
+<div class="container-fluid product-category" style="max-width: 25%; margin: 0 auto;">
+  <!-- User Actions -->
+  <ul class="navbar-nav ms-auto d-flex justify-content-end">
+    <% if (curruser) { %>
+      <% if (curruser.username === "iamadmin@open") { %>
+        <!-- Admin Actions -->
+        <li class="nav-item">
+          <a class="nav-link" href="/listings/new">
+            <i class="fa-solid fa-plus" style="font-size: 2rem; margin-left: 20px;" id="cart-icon"></i>
+            <br><span style="margin-left: 20px;">New</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/pro-not-avai">
+            <i class="fa-solid fa-users-line" style="font-size: 2rem; margin-left:17px" id="cart-icon"></i>
+            <br>Customers Order
+          </a>
+        </li>
+      <% } else { %>
         <!-- User Actions -->
-        <ul class="navbar-nav ms-auto d-flex justify-content-end">
-         
-           
-             <% if(!curruser) { %>
-              <a class="nav-link" href="/login" style="font-size: 16px;">
-                <i class="fa-solid fa-user" id="user"></i><br>Login
-              </a>
-                <li><a href="" ></a></li>
-            <% } if(curruser){%>
-              <a class="nav-link" href="/logout" style="font-size: 16px;" onclick="alert('You Are Logout!')">
-                <i class="fas fa-user-slash" id="user"></i><br>Logout
-              </a>
-              
-         <% } %>
-           
-          </li>
-       
-         
+        <li class="nav-item">
+          <a class="nav-link position-relative" href="/wishlist">
+            <i class="fa-solid fa-heart" style="margin-left: 30px; font-size: 2rem;"></i>
+            <br><span style="margin-left: 30px;">Wishlist</span>
+            <span id="wishlist-count" class="translate-middle badge rounded-pill" style="font-size: 0.8rem;">
+              <%= wishlistCount || 0 %>
+            </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link  position-relative" href="/cart">
+            <i class="fas fa-shopping-cart cart-icon" style="font-size: 2rem; margin-right:18px" id="cart-icon"></i>
+            <br ><p style="padding-top: 17px;"><span>Cart</span></p>
+            <span id="cart-count" class="translate-middle badge rounded-pill" style="font-size: 0.8rem; ">
+              <%= cartcount || 0 %>
+            </span>
+          </a>
+        </li>
+      <% } %>
+    <% } %>
+    <!-- Login/Logout Actions -->
+    <li class="nav-item">
+      <% if (!curruser) { %>
+        <a class="nav-link" href="/login" style="font-size: 16px;">
+          <i class="fa-solid fa-user" id="user"></i>
+          <br>Login
+        </a>
+      <% } else { %>
+        <a class="nav-link" href="/logout" style="font-size: 16px; margin-right:-10px;" onclick="alert('You Are Logout!')">
+          <i class="fa-duotone fa-solid fa-right-from-bracket" ></i>
+          <br><span>Logout</span>
+        </a>
+      <% } %>
+    </li>
+  </ul>
+</div>
 
 
-          <li class="nav-item">
-            <a class="nav-link position-relative" href="/wishlist">
-            
-                 <i class="fa-solid fa-heart " style="font-size: 2.2rem;"; ></i>
-                 <br><span >Wishlist</span>
-             
-              <span
-                id="wishlist-count"
-                class="   translate-middle badge rounded-pill" 
-                style="font-size: 0.8rem;"
-              >
-                <%= wishlistCount || 0 %>
-              </span>
-             
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/cart">
-
-              <i class="fas fa-shopping-cart cart-icon"  style="font-size: 2rem;"  id="cart-icon"></i> 
-              <i class=""></i><br>Cart
-              <span
-                id="cart-count"
-                class="  translate-middle badge rounded-pill" 
-                style="font-size: 0.8rem;"
-              >
-                <%= cartcount || 0 %>
-              </span>
-           
-            </a>
-          </li>
-        </ul>
-      </div>
     </div>
   </div>
 </nav>

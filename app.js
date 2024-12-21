@@ -1,76 +1,121 @@
+
+// Environment Configuration
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
+
+// =======================
+// Import Required Modules
+// =======================
 const express = require('express');
-const app = express();
 const path = require("path");
 const ejsMate = require('ejs-mate');
 const mongoose = require('mongoose');
-const home=require("./models/home.js");
-const kids=require("./models/kids.js");
-const nonfiction=require("./models/nonfiction.js");
-const fiction=require("./models/fiction.js");
-const RS=require("./models/RS.js");
-const TY=require("./models/TA.js");
-const academic=require("./models/academic.js");
 const session = require("express-session");
+const passport = require("passport");
+const localstrategy = require("passport-local");
+const MongoStore = require("connect-mongo");
+const flash = require("express-flash");
+const methodOverride = require('method-override');
+const multer = require('multer');
+const fs = require('fs');
+
+// =======================
+// Import Models
+// =======================
+const home = require("./models/home.js");
+const kids = require("./models/kids.js");
+const nonfiction = require("./models/nonfiction.js");
+const fiction = require("./models/fiction.js");
+const RS = require("./models/RS.js");
+const TY = require("./models/TA.js");
+const academic = require("./models/academic.js");
 const reviews = require('./models/reviews.js');
-const passport=require("passport");
-const localstrategy=require("passport-local");
-const user= require("./models/user.js");
-const MongoStore=require("connect-mongo")
-const flash=require("express-flash");
-const { isloggedIn, saveRedirectUrl,reviewOwner } = require('./middleware.js');
-const methodOverride=require('method-override');
+const customer = require("./models/customer.js");
+const user = require("./models/user.js");
 
+// =======================
+// Import Middleware
+// =======================
+const { isloggedIn, saveRedirectUrl, reviewOwner } = require('./middleware.js');
 
-// Set up EJS and views directory
+// =======================
+// App Initialization
+// =======================
+const app = express();
+
+// =======================
+// View Engine Setup
+// =======================
+app.use(express.static('public'));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.engine('ejs', ejsMate);
 
-// Middleware to parse request body and serve static files
+// =======================
+// Middleware Setup
+// =======================
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use('/show_d/:id', express.static(path.join(__dirname, "public")));
-app.use(express.static('public')); // जिथे 'public' फोल्डरमध्ये तुमची CSS फाईल आहे.
 app.use(methodOverride("_method"));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// =======================
+// Multer Configuration
+// =======================
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '/uploads'));
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+
+// =======================
+// MongoDB Connection
+// =======================
 const mongoUrl = process.env.AtlasDb_Url;
 
+async function main() {
+  try {
+    await mongoose.connect(mongoUrl, {});
+    console.log("Connected to database...");
+  } catch (err) {
+    console.error("Database connection error:", err);
+  }
+}
+main();
 
-
+// =======================
+// Session and Flash Configuration
+// =======================
 const store = MongoStore.create({
   mongoUrl: mongoUrl,
-  crypto: {
-      secret: process.env.SECREAT,
-  },
+  crypto: { secret: process.env.SECREAT },
   touchAfter: 24 * 3600,
 });
 
-
 app.use(
   session({
-    secret: process.env.SECREAT, // प्रॉडक्शनमध्ये सुरक्षित ठेवण्यासाठी 
-    resave: false, // सेशन डेटामध्ये बदल नसेल तर सेव्ह होणार नाही
-    saveUninitialized: false, // रिकाम्या सेशनला सेव्ह होऊ देणार नाही
-    store: store, // MongoDB स्टोअर जोडण्यासाठी
+    secret: process.env.SECREAT,
+    resave: false,
+    saveUninitialized: false,
+    store: store,
     cookie: {
-      expires: Date.now() + 7 * 24 * 60 * 60 * 1000, // 7 दिवस वैध
-      maxAge: 7 * 24 * 60 * 60 * 1000, // कमाल वय 7 दिवस
-      httpOnly: true, // क्लायंट-साइड जावास्क्रिप्टला कुकी ऍक्सेस होणार नाही
+      expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
     },
   })
 );
-
-
-  
-
-
 app.use(flash());
 
-
+// =======================
+// Passport Configuration
+// =======================
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new localstrategy(user.authenticate()));
@@ -79,56 +124,37 @@ passport.serializeUser(user.serializeUser());
 passport.deserializeUser(user.deserializeUser());
 
 passport.serializeUser((user, done) => {
-  done(null, user.id); // Save the user's ID in the session
+  done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
   user.findById(id, (err, user) => {
-      if (err) return done(err);
-      done(null, user); // Attach the user object to req.user
+    if (err) return done(err);
+    done(null, user);
   });
 });
 
+// =======================
+// Global Variables Middleware
+// =======================
 app.use((req, res, next) => {
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
-  res.locals.curruser = req.user || null; 
-
+  res.locals.curruser = req.user || null;
   next();
 });
 
-
-
-  
-// MongoDB Connection
-
-
-async function main() {
-    try {
-        await mongoose.connect(mongoUrl, {});
-        console.log("Connected to database...");
-    } catch (err) {
-        console.error("Database connection error:", err);
-    }
-}
-
-main();
-
-
-
-
-
-
-
+// =======================
+// Models Registry
+// =======================
 const models = {
   home: require("./models/home"),
   fiction: require("./models/fiction"),
   nonfiction: require("./models/nonfiction"),
   kids: require("./models/kids"),
-  RS:require("./models/RS.js"),
- TY:require("./models/TA.js"),
-  academic:require("./models/academic.js")
- 
+  RS: require("./models/RS.js"),
+  TY: require("./models/TA.js"),
+  academic: require("./models/academic.js"),
 };
 
 global.categoryModels = {
@@ -138,12 +164,14 @@ global.categoryModels = {
   kids,
   RS,
   TY,
-  academic
+  academic,
 };
 
+// =======================
 // Routes
+// =======================
 
-// Signup Routes
+// Signup Route
 app.get("/signup", async (req, res) => {
   res.render("users/signup_form.ejs", {
     wishlistCount: req.session.wishlistCount || 0,
@@ -151,9 +179,10 @@ app.get("/signup", async (req, res) => {
   });
 });
 
+// User Signup Route
 app.post("/signup", async (req, res) => {
   try {
-    let { username, email, password } = req.body;
+    const { username, email, password } = req.body;
 
     // Create a new user object
     const newUser = new user({ email, username });
@@ -163,22 +192,19 @@ app.post("/signup", async (req, res) => {
     console.log(registeredUser);
 
     req.login(registeredUser, (err) => {
-      if (err) {
-        return next(err);
-      }
+      if (err) return next(err);
 
       req.flash("success", "Signup successful! Welcome to our website.");
       res.redirect("/");
     });
   } catch (e) {
-    // Check for specific errors, such as user already existing
+    // Handle specific errors, such as user already existing
     if (e.name === "UserExistsError") {
       req.flash("error", "User already exists. Please try a different email.");
     } else {
       req.flash("error", "Something went wrong. Please try again.");
     }
 
-    // Re-render the signup page with flash messages
     res.redirect("/signup");
   }
 });
@@ -196,7 +222,7 @@ app.post(
   saveRedirectUrl,
   passport.authenticate("local", {
     failureRedirect: "/login",
-    failureFlash: "Invalid username or password.", // Flash message for login failure
+    failureFlash: "Invalid username or password.",
   }),
   async (req, res) => {
     const redirectUrl = res.locals.redirectUrl || "/";
@@ -209,306 +235,218 @@ app.post(
 
 // Logout Route
 app.get("/logout", (req, res) => {
- 
   req.logout((err) => {
-    
-    // req.flash("success", "You have successfully logged out.");
-    req.session.destroy((err) => {
-      res.redirect("/"); // Redirect after logging out
-    });
-     
-    
+    req.session.destroy(() => res.redirect("/"));
   });
 });
 
-
-
+// Home Page Route
 app.get("/", async (req, res) => {
-  
-    const Book=await home.find({});
-    const Kids=await kids.find({});
-    const Nonfiction=await nonfiction.find({});
-    const Fiction=await fiction.find({});
-    const Academic=await academic.find({});
-    const ty =await TY.find({});
-    const rs =await RS.find({});
-   
-    res.render("home.ejs",
-      {
-        categoryModels,
-        Book,
-        Kids,
-        Academic,
-        ty,
-        rs,
-        Nonfiction,
-        Fiction,
-        wishlistCount: req.session.wishlistCount || 0,
-        cartcount: req.session.cartCount || 0
-    });
+  const Book = await home.find({});
+  const Kids = await kids.find({});
+  const Nonfiction = await nonfiction.find({});
+  const Fiction = await fiction.find({});
+  const Academic = await academic.find({});
+  const ty = await TY.find({});
+  const rs = await RS.find({});
+
+  res.render("home.ejs", {
+    categoryModels,
+    Book,
+    Kids,
+    Academic,
+    ty,
+    rs,
+    Nonfiction,
+    Fiction,
+    wishlistCount: req.session.wishlistCount || 0,
+    cartcount: req.session.cartCount || 0,
+  });
 });
 
-
-
-
-
+// Search Route
 app.get("/search", (req, res) => {
-  req.flash("error","Search bar is under construction!");
-    return res.redirect("/");
+  req.flash("error", "Search bar is under construction!");
+  return res.redirect("/");
+});
 
-  } 
-);
-
-
-
-
-
-
-
-
+// Dynamic Show Details Route
 app.get("/show_d/:id/:category", async (req, res) => {
   const { id, category } = req.params;
-  const Model = models[category]; // योग्य मॉडेल निवडणे
-  if (!Model) {
-    return res.status(400).send("Invalid category");
-  }
-  // console.log(category, Model);
-  
-
-  // डायनॅमिक मॉडेल वापरून कॅटेगरी निवडा
   let BookModel;
+
   switch (category) {
-      case "home":
-          BookModel = home;
-          break;
-      case "fiction":
-          BookModel = fiction;
-          break;
-      case "nonfiction":
-          BookModel = nonfiction;
-          break;
-      case "kids":
-          BookModel = kids;
-          break;
-      case "RS":
-          BookModel = RS;
-          break;
-      case "TY":
-          BookModel = TY;
-          break;
-      case "academic":
-          BookModel = academic;
-          break;
-      default:
-          return res.status(404).send("Category not found!");
+    case "home":
+      BookModel = home;
+      break;
+    case "fiction":
+      BookModel = fiction;
+      break;
+    case "nonfiction":
+      BookModel = nonfiction;
+      break;
+    case "kids":
+      BookModel = kids;
+      break;
+    case "RS":
+      BookModel = RS;
+      break;
+    case "TY":
+      BookModel = TY;
+      break;
+    case "academic":
+      BookModel = academic;
+      break;
+    default:
+      return res.status(404).send("Category not found!");
   }
 
-  
   try {
-      const Book = await BookModel.findById(id).populate({
-        path: "reviews",
-        populate: { path: "owner", select: "username" }, 
-        });
-      res.render("show_d.ejs", {
-          Book,
-          category,
-          wishlistCount: req.session.wishlistCount || 0,
-          cartcount: req.session.cartCount || 0,
-      });
-  } catch (error) {
-      res.status(500).send("Something went wrong: " + error.message);
-  }
-});
-
-
-
-
-
-app.post("/add-to-cart",async (req, res) => {
- 
-  try {
-      const { productId, image, title, author, description, price, quantity,category } = req.body;
-
-      if (!req.session.cart) {
-          req.session.cart = [];
-      }
-
-      req.session.cart.push({
-          productId,
-          image,
-          title,
-          author,
-          description,
-          price,
-          quantity,
-         category
-         
-      });
-
-   req.session.cartCount=req.session.cart.length;
-  //  console.log("cart count:", req.session.cartCount);
-      return res.json({ success: true, message: "Added to cart" });
-  } catch (error) {
-      // console.error("Error adding to cart:", error);
-      return res.json({ success: false, message: "Error adding to cart" });
-  }
-});
-
-  
-app.get("/cart", isloggedIn,(req, res) => {
- 
-    res.render("cart.ejs", {
-      cart: req.session.cart || [],
+    const Book = await BookModel.findById(id).populate({
+      path: "reviews",
+      populate: { path: "owner", select: "username" },
+    });
+    res.render("show_d.ejs", {
+      Book,
+      category,
       wishlistCount: req.session.wishlistCount || 0,
       cartcount: req.session.cartCount || 0,
     });
-  
-});
-
-
-
-
-
-
-app.post("/remove-from-cart", isloggedIn,(req, res) => {
-  try {
-      const { productId } = req.body;
-
-      // Check if the cart exists in the session
-      if (!req.session.cart) {
-          return res.json({ success: false, message: "Cart is empty." });
-      }
-
-      // Filter out the product from the cart
-      req.session.cart = req.session.cart.filter(item => item.productId !== productId);
-      req.flash("success", "Cart Is Remove SuccessFully!.");
-     res.redirect("/cart")
   } catch (error) {
-      console.error("Error removing from cart:", error);
-      return res.status(500).json({ success: false, message: "Error removing product from cart" });
+    res.status(500).send("Something went wrong: " + error.message);
   }
 });
 
-
-
-
-app.post("/add-to-cart1", isloggedIn, async (req, res) => {
-  
+// Add to Cart Route
+app.post("/add-to-cart", async (req, res) => {
   try {
-      const {  image, title, author, description, price, } = req.body;
+    const { productId, image, title, author, description, price, quantity, category } = req.body;
 
-      if (!req.session.cart) {
-          req.session.cart = [];
-      }
+    if (!req.session.cart) req.session.cart = [];
 
-      req.session.cart.push({
-         
-          image,
-          title,
-          author,
-          description,
-          price
-          
-         
-      });
+    req.session.cart.push({ productId, image, title, author, description, price, quantity, category });
+    req.session.cartCount = req.session.cart.length;
 
-   req.session.cartCount=req.session.cart.length;
-   console.log("cart count:", req.session.cartCount);
-      return res.json({ success: true, message: "Added to cart" });
+    return res.json({ success: true, message: "Added to cart" });
   } catch (error) {
-      console.error("Error adding to cart:", error);
-      return res.json({ success: false, message: "Error adding to cart" });
+    return res.json({ success: false, message: "Error adding to cart" });
   }
 });
 
-
-app.get("/buy-now", isloggedIn,(req,res)=>{
-  res.render("buy_now_form.ejs",{wishlistCount: req.session.wishlistCount || 0, cartcount: req.session.cartCount || 0});
+// View Cart Route
+app.get("/cart", isloggedIn, (req, res) => {
+  res.render("cart.ejs", {
+    cart: req.session.cart || [],
+    wishlistCount: req.session.wishlistCount || 0,
+    cartcount: req.session.cartCount || 0,
+  });
 });
-app.get("/pro-not-avai",(req,res)=>{
-  res.render("pro-not-avai.ejs",{wishlistCount: req.session.wishlistCount || 0, cartcount: req.session.cartCount || 0});
+
+// Remove from Cart Route
+app.post("/remove-from-cart", isloggedIn, (req, res) => {
+  try {
+    const { productId } = req.body;
+    if (!req.session.cart) return res.json({ success: false, message: "Cart is empty." });
+
+    req.session.cart = req.session.cart.filter(item => item.productId !== productId);
+    req.session.cartCount = req.session.cart.length;
+
+    req.flash("success", "Cart item removed successfully!");
+    res.redirect("/cart");
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error removing product from cart" });
+  }
 });
 
+// Buy Now Route
+app.get("/buy-now", isloggedIn, (req, res) => {
+  res.render("buy_now_form.ejs", {
+    wishlistCount: req.session.wishlistCount || 0,
+    cartcount: req.session.cartCount || 0,
+  });
+});
 
+// Process Checkout Route
+app.post("/pro-not-avai", async (req, res) => {
+  try {
+    const { name, email, address, city, state, zipcode, paymentMethod } = req.body;
 
+    const currentDateTime = new Date();
+    const newCheckout = new customer({
+      currentDateTime,
+      user: { _id: req.user._id, email: req.user.email, username: req.user.username },
+      billing: { name, email, address, city, state, zipcode },
+      payment: { method: paymentMethod },
+    });
 
+    await newCheckout.save();
 
+    req.flash("success", "Checkout successful!");
+    res.redirect("/pro-not-avai");
+  } catch (error) {
+    req.flash("error", "Error processing checkout. Please try again.");
+    res.redirect("/");
+  }
+});
 
+app.get("/pro-not-avai", async (req, res) => {
+  const thenewcustomer = await customer.find({});
+  res.render("pro-not-avai.ejs", {
+    wishlistCount: req.session.wishlistCount || 0,
+    cartcount: req.session.cartCount || 0,
+    thenewcustomer,
+  });
+});
 
-
-
-
-
-
+// Add to Wishlist Route
 app.post("/add-to-wishlist/:category", isloggedIn, async (req, res) => {
-    const { productId } = req.body; // Extract productId from the request body
-    const {category}=req.params;
-    const Model=models[category];
-    if(!Model){
-      return res.status(400).json({error:"invalid category"});
-    }
-    if (!productId) {
-        return res.status(400).json({ error: "Product ID not provided" });
-    }
-    let BookModel;
-    switch (category) {
-        case "home":
-            BookModel = home;
-            break;
-        case "fiction":
-            BookModel = fiction;
-            break;
-        case "nonfiction":
-            BookModel = nonfiction;
-            break;
-        case "kids":
-            BookModel = kids;
-            break;
-        case "RS":
-            BookModel = RS;
-            break;
-        case "TY":
-            BookModel = TY;
-            break;
-        case "academic":
-            BookModel = academic;
-            break;
-        default:
-            return res.status(404).send("Category not found!");
-    }
-    
-    try {
-      
-        const product = await BookModel.findById(productId); // Fetch the product
-        if (!product) {
-            return res.status(404).json({ error: "Product not found" });
-        }
+  const { productId } = req.body;
+  const { category } = req.params;
 
-        // Initialize wishlist in the session if it doesn't exist
-       
-        if (!req.session.wishlist) {
-            req.session.wishlist = [];
-        }
+  let BookModel;
+  switch (category) {
+    case "home":
+      BookModel = home;
+      break;
+    case "fiction":
+      BookModel = fiction;
+      break;
+    case "nonfiction":
+      BookModel = nonfiction;
+      break;
+    case "kids":
+      BookModel = kids;
+      break;
+    case "RS":
+      BookModel = RS;
+      break;
+    case "TY":
+      BookModel = TY;
+      break;
+    case "academic":
+      BookModel = academic;
+      break;
+    default:
+      return res.status(404).send("Category not found!");
+  }
 
-        // Add the product to the wishlist
-        
-       req.session.wishlist.push(product._id);
-        req.session.wishlistCount = req.session.wishlist.length;
+  try {
+    const product = await BookModel.findById(productId);
+    if (!product) return res.status(404).json({ error: "Product not found" });
 
-        console.log("Wishlist count:", req.session.wishlistCount); // Debugging
+    if (!req.session.wishlist) req.session.wishlist = [];
 
+    req.session.wishlist.push(product._id);
+    req.session.wishlistCount = req.session.wishlist.length;
 
-        
-        console.log(`Product added to wishlist: ${product._id}`);
-        req.flash("success", "Product Added In Wishlist!.");
-        res.redirect(req.get("referer")); // Redirect to the referring page
-    } catch (err) {
-        console.error("Error adding to wishlist:", err);
-        res.status(500).json({ error: "Error adding to wishlist" });
-    }
+    req.flash("success", "Product added to wishlist!");
+    res.redirect(req.get("referer"));
+  } catch (err) {
+    res.status(500).json({ error: "Error adding to wishlist" });
+  }
 });
 
-
+// Wishlist Route
 app.get("/wishlist", async (req, res) => {
   console.log("req.session.wishlist=", req.session.wishlist);
 
@@ -543,108 +481,91 @@ app.get("/wishlist", async (req, res) => {
   }
 });
 
-  // Render empty wishlist page
-  app.get("/Empty_wishlist", (req, res) => {
-    res.render("Empty_wishlist.ejs",{wishlistCount: req.session.wishlistCount || 0, cartcount: req.session.cartCount || 0});
+// Render empty wishlist page
+app.get("/Empty_wishlist", (req, res) => {
+  res.render("Empty_wishlist.ejs", {
+    wishlistCount: req.session.wishlistCount || 0,
+    cartcount: req.session.cartCount || 0
   });
-  
-  // Remove a product from wishlist
-  // Wishlistमधून प्रॉडक्ट काढा
-app.post("/remove-from-wishlist", isloggedIn,async (req, res) => {
+});
+
+// Remove a product from wishlist
+app.post("/remove-from-wishlist", isloggedIn, async (req, res) => {
   const { productId } = req.body;
   console.log(productId);
 
   try {
-      if (!req.session.wishlist) {
-          return res.redirect("/wishlist");
-      }
+    if (!req.session.wishlist) {
+      return res.redirect("/wishlist");
+    }
 
-      req.session.wishlist = req.session.wishlist.filter((id) => id !== productId);
+    req.session.wishlist = req.session.wishlist.filter((id) => id !== productId);
 
-      // Wishlist count अपडेट करा
-      req.session.wishlistCount = req.session.wishlist.length;
+    // Wishlist count अपडेट करा
+    req.session.wishlistCount = req.session.wishlist.length;
 
-      // console.log("Updated Wishlist Count:", req.session.wishlistCount);
-      req.flash("success", "Product Removed From Wishlist!.");
-      res.redirect("/wishlist");
+    req.flash("success", "Product Removed From Wishlist!.");
+    res.redirect("/wishlist");
   } catch (error) {
-      // console.error("Error removing from wishlist:", error);
-      req.flash("error", "product not remove from wishlist!.");
-      res.redirect("/wishlist");
+    req.flash("error", "product not remove from wishlist!.");
+    res.redirect("/wishlist");
   }
 });
 
-
-
+// API Routes for Wishlist and Cart Count
 app.get("/api/wishlist-count", (req, res) => {
-  // console.log("Session Data:", req.session);
   const wishlistCount = req.session.wishlistCount || 0;
   res.json({ wishlistCount });
 });
+
 app.get("/api/cart-count", (req, res) => {
-  // console.log("Session Data:", req.session);
   const cartCount = req.session.cartCount || 0;
   res.json({ cartCount });
 });
 
+// Reviews
 
-
-// reviews
-
-app.get("/add_new_review",(req,res)=>{
-  req.flash("error","Please Login Before Add Review!");
+// Redirect unauthenticated user to login before adding a review
+app.get("/add_new_review", (req, res) => {
+  req.flash("error", "Please Login Before Add Review!");
   res.redirect("/login");
-})
+});
 
-app.post("/reviews/:category/:id/views", isloggedIn,async (req, res) => {
+// Add a review
+app.post("/reviews/:category/:id/views", isloggedIn, async (req, res) => {
   try {
     const { category, id } = req.params;
 
-    // मॉडेल निवडा (कॅटेगरीनुसार)
-    const Model = models[category];
-    // console.log(Model);
+    const Model = models[category]; // मॉडेल निवडा (कॅटेगरीनुसार)
     if (!Model) {
-      
       return res.status(400).send("Invalid category in post");
     }
 
-    // पुस्तक शोधा
-    const book = await Model.findById(id);
-  
-    
-    // console.log({select: "username",});
-    
+    const book = await Model.findById(id); // पुस्तक शोधा
     if (!book) {
       return res.status(404).send("Book not found");
     }
 
-    // नवीन रिव्ह्यू तयार करा
-    const newReview = new reviews(req.body.review);
-    newReview.owner=req.user._id;
+    const newReview = new reviews(req.body.review); // नवीन रिव्ह्यू तयार करा
+    newReview.owner = req.user._id;
     book.reviews.push(newReview);
-    // console.log("this is new review info:",newReview);
-    
+
     await newReview.save();
     await book.save();
     req.flash("success", "New Review Added!.");
     res.redirect(`/show_d/${id}/${category}`);
   } catch (error) {
-    
     console.error("Error while saving review:", error);
-    // res.status(500).send("An error occurred while saving the review");
     req.flash("error", "An error occurred while saving the review!.");
   }
 });
 
-app.delete("/reviews/:category/:id/views/:reviewId", 
-  isloggedIn,
-  reviewOwner,
-  async (req, res) => {
+// Delete a review
+app.delete("/reviews/:category/:id/views/:reviewId", isloggedIn, reviewOwner, async (req, res) => {
   try {
     const { category, id, reviewId } = req.params;
 
     const Model = models[category];
-    
     if (!Model) {
       return res.status(400).send("Invalid category in delete ");
     }
@@ -654,45 +575,146 @@ app.delete("/reviews/:category/:id/views/:reviewId",
     req.flash("error", "Review Deleted!.");
     res.redirect(`/show_d/${id}/${category}`);
   } catch (error) {
-    // console.error("Error while deleting review:", error);
-    // res.status(500).send("An error occurred while deleting the review");
     req.flash("error", "An error occurred while deleting the review!");
   }
 });
 
+// About Us
+app.get("/aboutus", (req, res) => {
+  res.render("aboutus.ejs", {
+    wishlistCount: req.session.wishlistCount || 0,
+    cartcount: req.session.cartCount || 0
+  });
+});
+// Admin Panel Routes
 
+// Route to render the form for adding a new listing
+app.get("/listings/new", (req, res) => {
+  res.render("new_product.ejs", {
+      wishlistCount: req.session.wishlistCount || 0,
+      cartcount: req.session.cartCount || 0,
+  });
+});
 
-app.get("/aboutus",(req,res)=>{
-  res.render("aboutus.ejs",{ wishlistCount: req.session.wishlistCount || 0,
-    cartcount: req.session.cartCount || 0})
-})
+// Route to handle new listing creation with file upload
+const upload = multer({ storage });
+app.post("/listings/new", upload.single('listing[image]'), async (req, res) => {
+  console.log(req.body.listing);
+  const { title, author, description, price, category } = req.body.listing;
+  const Model = models[category]; // Dynamically select the model based on category
 
+  if (!Model) {
+      return res.status(400).send("Invalid category");
+  }
 
+  try {
+      const newListing = new Model({
+          title,
+          author,
+          description,
+          price,
+          image: req.file ? '/uploads/' + req.file.filename : null, // Save the uploaded image path
+      });
+      console.log(req.file); // Check uploaded file
 
+      await newListing.save();
+      res.redirect(`/show_d/${newListing._id}/${category}`);
+  } catch (error) {
+      res.status(500).send("Failed to create listing: " + error.message);
+  }
+});
 
+// Route to render the form for editing a listing
+app.get("/listings/:id/:category/edit", async (req, res) => {
+  const { id, category } = req.params; // Extract ID and category from URL
+  const Model = models[category]; // Select model based on category
+
+  if (!Model) {
+      return res.status(400).send("Invalid category");
+  }
+
+  try {
+      const listing = await Model.findById(id); // Fetch data from database
+      if (!listing) {
+          return res.status(404).send("Listing not found");
+      }
+      res.render("edit_product.ejs", {
+          listing,
+          category,
+          wishlistCount: req.session.wishlistCount || 0,
+          cartcount: req.session.cartCount || 0,
+      });
+  } catch (error) {
+      res.status(500).send("Failed to load edit form: " + error.message);
+  }
+});
+
+// Route to handle updating a listing
+app.post("/listings/:id/:category", upload.single('listing[image]'), async (req, res) => {
+  const { id, category } = req.params;
+  const { title, author, description, price } = req.body.listing;
+  const Model = models[category]; // Select model based on category
+
+  if (!Model) {
+      return res.status(400).send("Invalid category");
+  }
+
+  try {
+      const updatedData = {
+          title,
+          author,
+          description,
+          price
+      };
+
+      // Add new image if uploaded
+      if (req.file) {
+          updatedData.image = '/uploads/' + req.file.filename;
+      }
+
+      // Update the database
+      const updatedListing = await Model.findByIdAndUpdate(id, updatedData, { new: true });
+      if (!updatedListing) {
+          return res.status(404).send("Listing not found");
+      }
+
+      res.redirect(`/show_d/${updatedListing._id}/${category}`); // Redirect after update
+  } catch (error) {
+      res.status(500).send("Failed to update listing: " + error.message);
+  }
+});
+
+// Route to handle deleting a listing
+app.delete("/listings/:id/:category", async (req, res) => {
+  const { id, category } = req.params; // Extract listing ID and category
+  const Model = models[category]; // Select model based on category
+
+  if (!Model) {
+      return res.status(400).send("Invalid category");
+  }
+
+  try {
+      // Remove listing from MongoDB
+      const deletedListing = await Model.findByIdAndDelete(id);
+
+      if (!deletedListing) {
+          return res.status(404).send("Listing not found");
+      }
+
+      // Remove associated image if exists in uploads folder
+      const imagePath = path.join(__dirname, deletedListing.image);
+      if (fs.existsSync(imagePath)) {
+          fs.unlinkSync(imagePath); // Delete file
+      }
+
+      res.redirect("/"); // Redirect to listing page
+  } catch (error) {
+      res.status(500).send("Failed to delete listing: " + error.message);
+  }
+});
 
 // Start the server
 const PORT = process.env.PORT || 9696;
 app.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}...`);
-
+  console.log(`Server is listening on port ${PORT}...`);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

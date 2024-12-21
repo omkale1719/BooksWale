@@ -161,157 +161,144 @@ footer {
 
 
 
-
-
-
-/* Footer 2 */
-
-
 .quick-product {
-    display: none; /* Default visibility hidden */
+    display: none;
 }
 
 .container1 {
-    background-color: #333; /* Dark background */
-    color: #fff; /* White text */
+    background-color: #333;
+    color: #fff;
     padding: 10px 0;
-    text-align: center; /* Center alignment */
+    text-align: center;
 }
 
 .footer-links {
-    display: flex; /* Flexbox layout */
-    justify-content: space-around; /* Equal space between elements */
-    align-items: center; /* Vertical alignment */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     padding: 0;
     margin: 0;
-    list-style: none; /* Remove bullets */
+    list-style: none;
 }
 
 .footer-links li {
     text-align: center;
-    flex: 1; /* Equal space for all items */
+    flex: 1;
 }
 
 .footer-links a {
-    color: #fff; /* White text */
-    text-decoration: none; /* Remove underline */
+    color: #fff;
+    text-decoration: none;
     font-size: 14px;
     display: flex;
-    flex-direction: column; /* Icon above text */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
 .footer-links a:hover {
-    color: #FFD700; /* Gold color on hover */
+    color: #FFD700;
 }
 
 .footer-links i {
-    font-size: 1.8rem; /* Icon size */
+    font-size: 1.8rem;
     margin-bottom: 5px;
 }
 
 .footer-links .badge {
-    font-size: 0.8rem; /* Badge size */
+    font-size: 0.8rem;
     position: absolute;
     top: -10px;
     right: -10px;
-    background-color: #dc3545; /* Red badge */
+    background-color: #dc3545;
     color: #fff;
     border-radius: 50%;
     padding: 3px 6px;
 }
 
-#cartbadge{
-    padding: 5px 10px; /* Adds spacing inside the badge */
-color: white; /* Text color */
-background-color: red; /* Add a background for better visibility */
-border-radius: 10px; /* Gives the badge rounded corners */
-animation: pulse 1s infinite; /* Applies a continuous animation */
-position: absolute; /* Positions the badge relative to its parent */
-top: -15px; /* Vertical position */
-right: 300px; /* Horizontal position */
-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Adds subtle shadow for a 3D effect */
-font-weight: bold; /* Makes the text bold */
-z-index: 10; /* Ensures it appears above other elements */
+#cartbadge {
+    padding: 5px 10px;
+    color: white;
+    background-color: red;
+    border-radius: 10px;
+    animation: pulse 1s infinite;
+    position: absolute;
+    top: -15px;
+    right: 300px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+    z-index: 10;
 }
 
-#wishlistbadge{
-    padding: 5px 10px; /* Adds spacing inside the badge */
-    color: white; /* Text color */
-    background-color: red; /* Add a background for better visibility */
-      border-radius: 10px; /* Gives the badge rounded corners */
-      animation: pulse 1s infinite; /* Applies a continuous animation */
-      position: absolute; /* Positions the badge relative to its parent */
-      top: -12px; /* Vertical position */
-      right: 170px; /* Horizontal position */
-      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Adds subtle shadow for a 3D effect */
-      font-weight: bold; /* Makes the text bold */
-      z-index: 10; /* Ensures it appears above other elements */
-
+#wishlistbadge {
+    padding: 5px 10px;
+    color: white;
+    background-color: red;
+    border-radius: 10px;
+    animation: pulse 1s infinite;
+    position: absolute;
+    top: -12px;
+    right: 170px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+    z-index: 10;
 }
+
 @media (max-width: 991px) {
     .quick-product {
-        display: block; /* Visible on mobile/tablet */
-        position: sticky; /* Sticky footer */
+        display: block;
+        position: sticky;
         bottom: 0;
-        width: 100%; /* Full width */
-        z-index: 1000; /* Ensure it stays on top */
+        width: 100%;
+        z-index: 1000;
     }
 
     #cartbadge {
-        position: absolute; /* Positions the badge relative to its parent */
-        top: -15px; /* Vertical position */
-        right: 81%; /* Relative to the container width */
+        position: absolute;
+        top: -15px;
+        right: 81%;
     }
 
     #wishlistbadge {
-        position: absolute; /* Positions the badge relative to its parent */
-        top: -12px; /* Vertical position */
-        right: 57%; /* Adjust for proper placement */
-        transform: translateX(50%); /* Center-aligns based on position */
+        position: absolute;
+        top: -12px;
+        right: 57%;
+        transform: translateX(50%);
     }
-    .aboutus,.QuickLinks{
+
+    .aboutus,.QuickLinks {
         display: none;
     }
 }
 
 @media (max-width: 480px) {
     .quick-product {
-        display: block; /* Visible on mobile */
-        position: sticky; /* Sticky footer */
+        display: block;
+        position: sticky;
         bottom: 0;
-        width: 100%; /* Full width */
-        z-index: 1000; /* Ensure it stays on top */
+        width: 100%;
+        z-index: 1000;
     }
 
     #cartbadge {
-        position: absolute; /* Positions the badge relative to its parent */
-        top: -15px; /* Vertical position */
-        right: 75%; /* Adjust relative to smaller screens */
+        position: absolute;
+        top: -15px;
+        right: 52%;
     }
 
     #wishlistbadge {
-        position: absolute; /* Positions the badge relative to its parent */
-        top: -12px; /* Vertical position */
-        right: 52%; /* Adjust for smaller screens */
-        transform: translateX(50%); /* Center-aligns based on position */
+        position: absolute;
+        top: -12px;
+        right: 28%;
+        transform: translateX(50%);
     }
-    .aboutus, .QuickLinks{
+
+    .aboutus, .QuickLinks {
         display: none;
     }
 }
 
 
-
-
-
-
-
-
-
-
-/* General Reset */
 * {
     margin: 0;
     padding: 0;

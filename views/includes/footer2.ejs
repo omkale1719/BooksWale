@@ -6,11 +6,37 @@
     <div class="container1">
         <!-- Footer Links -->
         <ul class="footer-links">
+
+            <% if(curruser) {%>
+                <% if(curruser.username=="iamadmin@open"){ %>
+                 <li class="nav-item">
+                   <a class="nav-link" href="/listings/new">
+       
+                     <i class="fa-solid fa-plus"  style="font-size: 2rem;"  id="cart-icon"></i> 
+                     <i class=""></i><span style="margin-left: -25px;">New</span>
+                    </a>
+                    </li>
+       
+                    <li class="nav-item">
+                     <a class="nav-link" href="/pro-not-avai">
+         
+                      <i class="fa-solid fa-users-line"  style="font-size: 2rem;"  id="cart-icon"></i> 
+                       <i class=""></i>Customer Ativity
+                      </a>
+                      </li>
+                     
+         <% }else{ %>
+            <li>
+                <a href="/aboutus">
+                    <i class="fa-solid fa-eye"></i>
+                   About Us
+                </a>
+            </li>
             <li>
                 <a href="/cart">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="badge" id="cartbadge">
-                        <%= cartcount || 0 %>
+                       0
                     </span>
                     Cart
                 </a>
@@ -24,6 +50,15 @@
                     Wishlist
                 </a>
             </li>
+            <% }} %>
+            <%if(!curruser){  %>
+            <li>
+                <a href="/aboutus">
+                    <i class="fa-solid fa-eye"></i>
+                   About Us
+                </a>
+            </li>
+            <% } %>
             <li>
                 <% if (!curruser) { %>
                     <a href="/login">
@@ -37,12 +72,7 @@
                     </a>
                 <% } %>
             </li>
-            <li>
-                <a href="/aboutus">
-                    <i class="fa-solid fa-eye"></i>
-                   About Us
-                </a>
-            </li>
+           
         </ul>
     </div>
 </div>

@@ -1,7 +1,4 @@
-
-
-
-
+// Scroll Setup Function
 function setupScroll(divId, prevBtnId, nextBtnId, repeatCount) {
   const bookRow = document.getElementById(divId);
   const prevBtn = document.getElementById(prevBtnId);
@@ -61,17 +58,15 @@ function setupScroll(divId, prevBtnId, nextBtnId, repeatCount) {
 }
 
 // Setup both scrollable divs
-setupScroll('bookRow', 'prevBtn', 'nextBtn', 5);  // For the first div
-setupScroll('bookRow1', 'prevBtn1', 'nextBtn1', 5); // For the second div
+setupScroll('bookRow', 'prevBtn', 'nextBtn', 5);  
+setupScroll('bookRow1', 'prevBtn1', 'nextBtn1', 5); 
 setupScroll('bookRow2', 'prevBtn2', 'nextBtn2', 5); 
 setupScroll('bookRow3', 'prevBtn3', 'nextBtn3', 5); 
 setupScroll('bookRow4', 'prevBtn4', 'nextBtn4', 5); 
 setupScroll('bookRow5', 'prevBtn5', 'nextBtn5', 5); 
 setupScroll('bookRow6', 'prevBtn6', 'nextBtn6', 5); 
 
-
-
-
+// Modal Setup Function
 document.addEventListener("DOMContentLoaded", () => {
   const setupModal = (rowId, modalId) => {
     const bookRow = document.getElementById(rowId);
@@ -127,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  // प्रथम रौ आणि मॉडेल सेटअप
+ 
   setupModal("bookRow", "detailModal");
   setupModal("bookRow1", "detailModal1");
   setupModal("bookRow2", "detailModal2");
@@ -137,110 +132,102 @@ document.addEventListener("DOMContentLoaded", () => {
   setupModal("bookRow6", "detailModal6");
 });
 
-
-        // Select all heart buttons and icons
-        const heartButtons = document.querySelectorAll('.heartBtn');
+// Heart Button Toggle Function
+const heartButtons = document.querySelectorAll('.heartBtn');
         
-        heartButtons.forEach((heartBtn) => {
-          heartBtn.addEventListener('click', function(event) {
-           
+heartButtons.forEach((heartBtn) => {
+  heartBtn.addEventListener('click', function(event) {
+    const heartIcon = this.querySelector('.heartIcon'); // Get the icon inside the clicked button
+
+    // Toggle between regular (outline) and solid heart
+    if (heartIcon.classList.contains('fa-regular')) {
+      heartIcon.classList.remove('fa-regular');
+      heartIcon.classList.add('fa-solid');
+    } else {
+      heartIcon.classList.remove('fa-solid');
+      heartIcon.classList.add('fa-regular');
+    }
+  });
+});
+
+// Update Wishlist Count Function
+async function updateWishlistCount() {
+  try {
+      const response = await fetch('/api/wishlist-count');
+      const data = await response.json();
+      const wishlistCount = data.wishlistCount;
     
-            const heartIcon = this.querySelector('.heartIcon'); // Get the icon inside the clicked button
+      const wishlistBadge = document.getElementById('wishlist-count');
+      
+      if (wishlistCount > 0) {
+          wishlistBadge.textContent = wishlistCount;
+          wishlistBadge.style.display = 'inline-block';
+      } else {
+          wishlistBadge.style.display = 'none';
+      }
+
     
-            // Toggle between regular (outline) and solid heart
-            if (heartIcon.classList.contains('fa-regular')) {
-              heartIcon.classList.remove('fa-regular');
-              heartIcon.classList.add('fa-solid');
-            } else {
-              heartIcon.classList.remove('fa-solid');
-              heartIcon.classList.add('fa-regular');
-            }
-          });
-        });
-        
+  } catch (error) {
+      console.error('Error fetching wishlist count:', error);
+  }
+}
 
+document.addEventListener("DOMContentLoaded", updateWishlistCount);
 
-        async function updateWishlistCount() {
-          try {
-              const response = await fetch('/api/wishlist-count');
-              const data = await response.json();
-              const wishlistCount = data.wishlistCount;
-            
-              const wishlistBadge = document.getElementById('wishlist-count');
-              
-              if (wishlistCount > 0) {
-                  wishlistBadge.textContent = wishlistCount;
-                  wishlistBadge.style.display = 'inline-block';
-              } else {
-                  wishlistBadge.style.display = 'none';
-              }
-  
-            
-          } catch (error) {
-              console.error('Error fetching wishlist count:', error);
-          }
+// Update Cart Count Function
+async function updatecartCount() {
+  try {
+      const response = await fetch('/api/cart-count');
+      const data = await response.json();
+      const cartCount = data.cartCount;
+    
+      const cartBadge = document.getElementById('cart-count');
+      
+      if (cartCount > 0) {
+          cartBadge.textContent = cartCount;
+          cartBadge.style.display = 'inline-block';
+      } else {
+          cartBadge.style.display = 'none';
       }
-  
-      document.addEventListener("DOMContentLoaded", updateWishlistCount);
-  
 
+    
+  } catch (error) {
+      console.error('Error fetching cart count:', error);
+  }
+}
 
+document.addEventListener("DOMContentLoaded", updatecartCount);
 
-
-
-        async function updatecartCount() {
-          try {
-              const response = await fetch('/api/cart-count');
-              const data = await response.json();
-              const cartCount = data.cartCount;
-            
-              const cartBadge = document.getElementById('cart-count');
-              
-              if (cartCount > 0) {
-                  cartBadge.textContent = cartCount;
-                  cartBadge.style.display = 'inline-block';
-              } else {
-                  cartBadge.style.display = 'none';
-              }
-  
-            
-          } catch (error) {
-              console.error('Error fetching cart count:', error);
-          }
-      }
-  
-      document.addEventListener("DOMContentLoaded", updatecartCount);
-  
-  
-      function toggleMenu() {
-        const menu = document.getElementById('navbarMain');
-        menu.classList.toggle('show');
-      }
+// Toggle Navbar Menu Function
+function toggleMenu() {
+  const menu = document.getElementById('navbarMain');
+  menu.classList.toggle('show');
+}
       
-      // Prevent Bootstrap's default behavior of auto-expanding the navbar on resize
-      window.addEventListener('resize', function () {
-        const menu = document.getElementById('navbarMain');
-        if (window.innerWidth > 991) {
-          menu.classList.add('show');
-        } else {
-          menu.classList.remove('show');
-        }
-      });
+// Prevent Bootstrap's default behavior of auto-expanding the navbar on resize
+window.addEventListener('resize', function () {
+  const menu = document.getElementById('navbarMain');
+  if (window.innerWidth > 991) {
+    menu.classList.add('show');
+  } else {
+    menu.classList.remove('show');
+  }
+});
       
-      // Close the menu if clicked outside
-      document.addEventListener('click', function (event) {
-        const menu = document.getElementById('navbarMain');
-        const toggleButton = document.getElementById('toggleButton'); // Replace with your button's ID
-      
-        // Check if the click is outside the menu and the toggle button
-        if (menu.classList.contains('show') && 
-            !menu.contains(event.target) && 
-            !toggleButton.contains(event.target)) {
-          menu.classList.remove('show'); // Close the menu
-        }
-      });
-      
-// Quantity increment/decrement functions
+// Close the menu if clicked outside
+document.addEventListener('click', function (event) {
+  const menu = document.getElementById('navbarMain');
+  const toggleButton = document.getElementById('toggleButton'); // Replace with your button's ID
+
+  // Check if the click is outside the menu and the toggle button
+  if (menu.classList.contains('show') && 
+      !menu.contains(event.target) && 
+      !toggleButton.contains(event.target)) {
+    menu.classList.remove('show'); // Close the menu
+  }
+});
+
+// Quantity Increment/Decrement Functions
 function increaseValue() {
   let quantity = document.getElementById('quantity');
   let value = parseInt(quantity.value, 10);
@@ -259,8 +246,7 @@ function decreaseValue() {
   quantity.value = value;
 }
 
-
-
+// Check Delivery Availability Function
 function checkDelivery() {
   let pincode = document.querySelector('input[name="pincode"]').value;
   if (pincode === "") {
@@ -276,13 +262,7 @@ function checkDelivery() {
   }
 }
 
-
-
-
-
-
-
-
+// Buy Now Function
 function buyNow() {
   const pincode = document.querySelector('input[name="pincode"]').value;
    // Check if pincode is entered
@@ -294,11 +274,13 @@ function buyNow() {
   window.location.href = "/buy-now"; // Redirect to the buy-now page
 }
 
+// Login Function
+function login(){
+  window.location.href = "/login";
+}
 
-
-
+// Add to Cart Function
 function addToCart(){
-
   const pincode = document.querySelector('input[name="pincode"]').value;
    // Check if pincode is entered
    if (!pincode) {
@@ -306,7 +288,6 @@ function addToCart(){
     return;
 }
 
-  
   const productId = document.getElementById("product-id").value;
   const quantity = document.getElementById('quantity').value;
   const image = document.getElementById('pro-img').src; // Correct way to get the image URL
@@ -314,9 +295,8 @@ function addToCart(){
   const price = document.getElementById('pro-price').textContent.trim(); // Get price as text
   const title = document.getElementById('pro-title').textContent; // Get text content directly
   const category=document.getElementById('cat_id').textContent;
-  
 
-console.log(productId,quantity,author,image,title);
+  console.log(productId,quantity,author,image,title);
    fetch("/add-to-cart",{
        method:'post',
        headers:{ 'Content-Type': 'application/json'},
@@ -327,68 +307,24 @@ console.log(productId,quantity,author,image,title);
           author:author,
           price:price,
           image:image,
-          category:category
-
-       })
-   })
-
-   .then(response => response.json())
-   
-   .then(data => {
-       if (data.success) {
-           // showSnackbar('Added ' + quantity + ' item(s) to the cart', 'success');
-           console.log("add in cart")
-           showSnackbar('Added ' + quantity + ' item(s) to the cart', 'success');
-       
-       } else {
-           showSnackbar('Error adding to cart: ' + data.message, 'error');
-           console.log("for add to cart ocur error");
-           
-       }
-   })
-   .catch(error => {
-       console.error('Error:', error);
-       showSnackbar('Something went wrong!', 'error');
-       
-   });
+          category:category,
+      })
+  }).then((res)=>{
+      return res.json();
+  }).then((data)=>{
+     showSnackbar('Item added to cart.', 'success');
+     updatecartCount();
+  }).catch((err)=>{
+     showSnackbar('Error adding item to cart.', 'error');
+  });
 }
 
-
-
-// Snackbar display function
-function showSnackbar(message, type = 'info') {
-  var snackbar = document.getElementById('snackbar');
-  snackbar.innerText = message; 
-  snackbar.className = 'show ' + type; 
-
-  // After 3 seconds, remove the "show" class from the snackbar
-  setTimeout(function() {
-      snackbar.className = snackbar.className.replace('show ' + type, '');
+// Show Snackbar Function
+function showSnackbar(message, type) {
+  const snackbar = document.getElementById("snackbar");
+  snackbar.className = "show " + type;
+  snackbar.innerHTML = message;
+  setTimeout(function () {
+    snackbar.className = snackbar.className.replace("show", "");
   }, 3000);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  document.querySelector("form").addEventListener("submit", async function (event) {
-    event.preventDefault(); // Prevents form submission
-    const query = document.querySelector("input[type='search']").value;
-
-   // Redirect to the /search route with the query parameter
-  window.location.href = `/search?q=${encodeURIComponent(query)}`;
-});
