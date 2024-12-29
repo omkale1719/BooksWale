@@ -58,6 +58,8 @@
             </div>
             <div class="card-img-div">
                 <img src="" alt="Card Image" class="modal-card-img modal-image" id="p-i">
+                <% if(curruser) {%>
+                    <% if(curruser.username!==Admin){%>
                 <div class="action-buttons mt-4">
                     <form  class="cart-form">
                         <input type="hidden"  >
@@ -72,8 +74,23 @@
                         </div>
                     </form>
                 </div>
-                
-                
+                <% } }%>
+                <% if(!curruser) {%>
+                    <div class="action-buttons mt-4">
+                        <form method="get" action="/login" class="cart-form">
+                            <input type="hidden"  >
+                            <div class="d-flex flex-wrap">
+                                <button 
+                                type="submit" 
+                                class="btn btn-outline-primary mr-2 mb-2 animated-btn" 
+                               >
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                            
+                            </div>
+                        </form>
+                    </div>
+                    <% } %>
             </div>
             
             <div class="modal-card-content card-info">
@@ -146,9 +163,11 @@
             </div>
             <div class="card-img-div">
                 <img  src="" alt="Card Image" class="modal-card-img modal-image">
+                <% if(curruser) {%>
+                    <% if(curruser.username!==Admin){%>
                 <div class="action-buttons mt-4">
-                    <form>
-                        <input type="hidden" name="productId" id="productId" value="<%= Book._id %>">
+                    <form  class="cart-form">
+                        <input type="hidden"  >
                         <div class="d-flex flex-wrap">
                             <button 
                             type="button" 
@@ -160,6 +179,24 @@
                         </div>
                     </form>
                 </div>
+                <% } }%>
+                <% if(!curruser) {%>
+                    <div class="action-buttons mt-4">
+                        <form method="get" action="/login" class="cart-form">
+                            <input type="hidden"  >
+                            <div class="d-flex flex-wrap">
+                                <button 
+                                type="submit" 
+                                class="btn btn-outline-primary mr-2 mb-2 animated-btn" 
+                               >
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                            
+                            </div>
+                        </form>
+                    </div>
+                    <% } %>
+
 
             </div>
             <div class="modal-card-content card-info">
@@ -239,9 +276,11 @@
         </div>
         <div class="card-img-div">
             <img src="" alt="Card Image" class="modal-card-img modal-image" />
+            <% if(curruser) {%>
+                <% if(curruser.username!==Admin){%>
             <div class="action-buttons mt-4">
-                <form>
-                    <input type="hidden" name="productId" id="productId" value="<%= Book._id %>">
+                <form  class="cart-form">
+                    <input type="hidden"  >
                     <div class="d-flex flex-wrap">
                         <button 
                         type="button" 
@@ -253,6 +292,24 @@
                     </div>
                 </form>
             </div>
+            <% } }%>
+            <% if(!curruser) {%>
+                <div class="action-buttons mt-4">
+                    <form method="get" action="/login" class="cart-form">
+                        <input type="hidden"  >
+                        <div class="d-flex flex-wrap">
+                            <button 
+                            type="submit" 
+                            class="btn btn-outline-primary mr-2 mb-2 animated-btn" 
+                           >
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                        
+                        </div>
+                    </form>
+                </div>
+                <% } %>
+
         </div>
         <div class="modal-card-content card-info">
             <h2 class="modal-card-title modal-title"></h2>
@@ -327,9 +384,11 @@
         </div>
         <div class="card-img-div">
             <img src="" alt="Card Image" class="modal-card-img modal-image" />
+            <% if(curruser) {%>
+                <% if(curruser.username!==Admin){%>
             <div class="action-buttons mt-4">
-                <form>
-                    <input type="hidden" name="productId" id="productId" value="<%= Book._id %>">
+                <form  class="cart-form">
+                    <input type="hidden"  >
                     <div class="d-flex flex-wrap">
                         <button 
                         type="button" 
@@ -341,6 +400,24 @@
                     </div>
                 </form>
             </div>
+            <% } }%>
+            <% if(!curruser) {%>
+                <div class="action-buttons mt-4">
+                    <form method="get" action="/login" class="cart-form">
+                        <input type="hidden"  >
+                        <div class="d-flex flex-wrap">
+                            <button 
+                            type="submit" 
+                            class="btn btn-outline-primary mr-2 mb-2 animated-btn" 
+                           >
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                        
+                        </div>
+                    </form>
+                </div>
+                <% } %>
+
         </div>
         <div class="modal-card-content card-info">
             <h2 class="modal-card-title modal-title"></h2>
@@ -427,9 +504,11 @@
                   
                     <div class="card-img-div">
                         <img  src="" alt="Card Image" class="modal-card-img modal-image" />
+                        <% if(curruser) {%>
+                            <% if(curruser.username!==Admin){%>
                         <div class="action-buttons mt-4">
-                            <form>
-                                <input type="hidden" name="productId" id="productId" value="<%= Book._id %>">
+                            <form  class="cart-form">
+                                <input type="hidden"  >
                                 <div class="d-flex flex-wrap">
                                     <button 
                                     type="button" 
@@ -441,6 +520,24 @@
                                 </div>
                             </form>
                         </div>
+                        <% } }%>
+                        <% if(!curruser) {%>
+                            <div class="action-buttons mt-4">
+                                <form method="get" action="/login" class="cart-form">
+                                    <input type="hidden"  >
+                                    <div class="d-flex flex-wrap">
+                                        <button 
+                                        type="submit" 
+                                        class="btn btn-outline-primary mr-2 mb-2 animated-btn" 
+                                       >
+                                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                                    </button>
+                                    
+                                    </div>
+                                </form>
+                            </div>
+                            <% } %>
+        
                     </div>
                     <div class="modal-card-content card-info">
                         <h2  class="modal-card-title modal-title"></h2>
@@ -510,9 +607,11 @@
             </div>  
             <div class="card-img-div">
                 <img  src="" alt="Card Image" class="modal-card-img modal-image" />
+                <% if(curruser) {%>
+                    <% if(curruser.username!==Admin){%>
                 <div class="action-buttons mt-4">
-                    <form>
-                        <input type="hidden" name="productId" id="productId" value="<%= Book._id %>">
+                    <form  class="cart-form">
+                        <input type="hidden"  >
                         <div class="d-flex flex-wrap">
                             <button 
                             type="button" 
@@ -524,6 +623,24 @@
                         </div>
                     </form>
                 </div>
+                <% } }%>
+                <% if(!curruser) {%>
+                    <div class="action-buttons mt-4">
+                        <form method="get" action="/login" class="cart-form">
+                            <input type="hidden"  >
+                            <div class="d-flex flex-wrap">
+                                <button 
+                                type="submit" 
+                                class="btn btn-outline-primary mr-2 mb-2 animated-btn" 
+                               >
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                            
+                            </div>
+                        </form>
+                    </div>
+                    <% } %>
+
             </div>
             <div class="modal-card-content card-info">
                 <h2  class="modal-card-title modal-title"></h2>
@@ -594,9 +711,11 @@
             </div>  
             <div class="card-img-div">
                 <img  src="" alt="Card Image" class="modal-card-img modal-image" />
+                <% if(curruser) {%>
+                    <% if(curruser.username!==Admin){%>
                 <div class="action-buttons mt-4">
-                    <form>
-                        <input type="hidden" name="productId" id="productId" value="<%= Book._id %>">
+                    <form  class="cart-form">
+                        <input type="hidden"  >
                         <div class="d-flex flex-wrap">
                             <button 
                             type="button" 
@@ -608,6 +727,24 @@
                         </div>
                     </form>
                 </div>
+                <% } }%>
+                <% if(!curruser) {%>
+                    <div class="action-buttons mt-4">
+                        <form method="get" action="/login" class="cart-form">
+                            <input type="hidden"  >
+                            <div class="d-flex flex-wrap">
+                                <button 
+                                type="submit" 
+                                class="btn btn-outline-primary mr-2 mb-2 animated-btn" 
+                               >
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                            
+                            </div>
+                        </form>
+                    </div>
+                    <% } %>
+
             </div>
             <div class="modal-card-content card-info">
                 <h2  class="modal-card-title modal-title"></h2>

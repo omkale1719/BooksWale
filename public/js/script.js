@@ -78,8 +78,7 @@ function login() {
 }
 
 function addToCart() {
-  checkDelivery().then(isAvailable => {
-    if (isAvailable) {
+ 
       const productId = document.getElementById("product-id").value;
       const quantity = document.getElementById('quantity').value;
       const image = document.getElementById('pro-img').src;
@@ -108,10 +107,9 @@ function addToCart() {
       }).catch((err) => {
         showSnackbar('Item added to cart.', 'success');
       });
-    } else {
-      showSnackbar('Please Check Pincode.', 'error');
-    }
-  });
+    
+     
+    
 }
 
 function AddToCart(modalId) {

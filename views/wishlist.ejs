@@ -16,7 +16,7 @@
 
                             <div class="d-grid gap-2">
                               
-                            <form id="remove-from-wishlist-form" action="/remove-from-wishlist" method="POST" onsubmit="updateWishlistCount()">
+                            <form id="remove-from-wishlist-form" action="/remove-from-wishlist/<%= item._id %>" method="POST" onsubmit="updateWishlistCount()">
                                 <input type="hidden" name="productId" value="<%= item._id %>">
                                 <button type="submit" class="heartBtn" style="border: none; background: none;">
                                     <i class="fa-solid fa-heart-broken heartIcon"></i>

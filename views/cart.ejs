@@ -36,7 +36,7 @@
                                 <p class="cart-item-price">Price: &#8377;<%= item.price %></p>
                                 <p class="cart-item-quantity">Quantity: <%= item.quantity %></p>
                                 <!-- <p class="cart-item-total">Total: &#8377;<%= (item.price * item.quantity)%></p> -->
-                                <form action="/remove-from-cart" method="POST" onsubmit="return confirm('Are you sure you want to remove this item?');">
+                                <form action="/remove-from-cart/<%= item._id %>" method="POST" onsubmit="return confirm('Are you sure you want to remove this item?');">
                                     <input type="hidden" name="productId" value="<%= item.productId %>">
                                     <button type="submit" class="btn-delete"><i class="fa-solid fa-xmark"></i></button>
                                 </form>

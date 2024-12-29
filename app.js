@@ -31,7 +31,10 @@ const academic = require("./models/academic.js");
 const reviews = require('./models/reviews.js');
 const customer = require("./models/customer.js");
 const user = require("./models/user.js");
+const CartItem = require("./models/cart.js");
+const WishlistItem = require('./models/wishlist.js'); 
 
+// const wishlistItem=require("./models/wishlist.js")
 // Import Middleware
 const { isloggedIn, saveRedirectUrl, reviewOwner } = require('./middleware.js');
 
@@ -122,7 +125,8 @@ app.use((req, res, next) => {
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   res.locals.curruser = req.user || null;
-  res.locals.Admin="iamadmin@open"
+  res.locals.Admin="iamadmin@open";
+
   next();
 });
 
@@ -298,17 +302,31 @@ app.get("/show_d/:id/:category", async (req, res) => {
 });
 
 // Add to Cart Route
+
 app.post("/add-to-cart", async (req, res) => {
   try {
     const { productId, image, title, author, description, price, quantity, category } = req.body;
 
-    if (!req.session.cart) req.session.cart = [];
+    const cartItem = new CartItem({
+      user: { username: req.user.username },
+      productId,
+      image,
+      title,
+      author,
+      description,
+      price,
+      quantity,
+      category
+    });
 
-    req.session.cart.push({ productId, image, title, author, description, price, quantity, category });
-    req.session.cartCount = req.session.cart.length;
-    console.log(category);
-    return res.json({ success: true, message: "Added to cart" });
+    await cartItem.save();
+    
+    req.session.cartCount = await CartItem.countDocuments({ "user.username": req.user.username });
+
+    console.log("Saved to database:", category);
+    return res.json({ success: true, message: "Added to cart and saved to database" });
   } catch (error) {
+    console.error("Error adding to cart:", error);
     return res.json({ success: false, message: "Error adding to cart" });
   }
 });
@@ -320,23 +338,27 @@ app.get("/add_to_cart_message",(req,res)=>{
 })
 
 // View Cart Route
-app.get("/cart", isloggedIn, (req, res) => {
-  res.render("cart.ejs", {
-    cart: req.session.cart || [],
-    wishlistCount: req.session.wishlistCount || 0,
-    cartcount: req.session.cartCount || 0,
-  });
+app.get("/cart", isloggedIn, async (req, res) => {
+  try {
+    const cartProducts = await CartItem.find({ "user.username": req.user.username });
+    req.session.cartCount = cartProducts.length;
+    res.render("cart.ejs", {
+      cart: cartProducts || [],
+      wishlistCount: req.session.wishlistCount || 0,
+      cartcount: req.session.cartCount,
+    });
+  } catch (error) {
+    console.error("Error fetching cart:", error);
+    res.status(500).send("Error fetching cart.");
+  }
 });
 
 // Remove from Cart Route
-app.post("/remove-from-cart", isloggedIn, (req, res) => {
+app.post("/remove-from-cart/:id", isloggedIn, async (req, res) => {
   try {
-    const { productId } = req.body;
-    if (!req.session.cart) return res.json({ success: false, message: "Cart is empty." });
-
-    req.session.cart = req.session.cart.filter(item => item.productId !== productId);
-    req.session.cartCount = req.session.cart.length;
-
+    const { id } = req.params;
+    const deleteitem=await CartItem.findByIdAndDelete(id);
+    req.session.cartCount = await CartItem.countDocuments({ "user.username": req.user.username });
     req.flash("success", "Cart item removed successfully!");
     res.redirect("/cart");
   } catch (error) {
@@ -422,44 +444,41 @@ app.post("/add-to-wishlist/:category", isloggedIn, async (req, res) => {
     const product = await BookModel.findById(productId);
     if (!product) return res.status(404).json({ error: "Product not found" });
 
-    if (!req.session.wishlist) req.session.wishlist = [];
+    const wishlistItem = new WishlistItem({
+      user: { username: req.user.username },
+      productId: product._id,
+      category,
+      title: product.title,
+      author: product.author,
+      description: product.description,
+      price: product.price,
+      image: product.image,
+    });
 
-    req.session.wishlist.push(product._id);
-    req.session.wishlistCount = req.session.wishlist.length;
-
+    await wishlistItem.save();
     req.flash("success", "Product added to wishlist!");
     res.redirect(req.get("referer"));
   } catch (err) {
+    console.error("Error adding to wishlist:", err);
     res.status(500).json({ error: "Error adding to wishlist" });
   }
 });
 
-// Wishlist Route
-app.get("/wishlist", async (req, res) => {
-  
-  if (!req.session.wishlist || req.session.wishlist.length === 0) {
-    req.flash("error", "Empty Wishlist!.");
-    return res.redirect("/Empty_wishlist");
-  }
-  try {
-    const wishlistProducts = []; 
 
-    
-    for (let productId of req.session.wishlist) {
-      for (let category in categoryModels) {
-        const product = await categoryModels[category].findById(productId);
-        console.log("product  info=",product);
-        if (product) {
-          wishlistProducts.push(product);
-          break; 
-        }
-      }
+app.get("/wishlist", isloggedIn, async (req, res) => {
+  try {
+    const wishlistProducts = await WishlistItem.find({ "user.username": req.user.username });
+    req.session.wishlistCount = await WishlistItem.countDocuments({ "user.username": req.user.username });
+
+    if (wishlistProducts.length === 0) {
+      req.flash("error", "Empty Wishlist!");
+      return res.redirect("/Empty_wishlist");
     }
 
     res.render("wishlist.ejs", {
       wishlist: wishlistProducts,
-      wishlistCount: req.session.wishlist.length,
-      cartcount: req.session.cartCount || 0
+      wishlistCount: wishlistProducts.length,
+      cartcount: req.session.cartCount || 0,
     });
   } catch (err) {
     console.error("Error fetching wishlist:", err);
@@ -476,24 +495,17 @@ app.get("/Empty_wishlist", (req, res) => {
 });
 
 // Remove a product from wishlist
-app.post("/remove-from-wishlist", isloggedIn, async (req, res) => {
-  const { productId } = req.body;
-  console.log(productId);
+app.post("/remove-from-wishlist/:_id", isloggedIn, async (req, res) => {
+  const {_id}  = req.params;
 
   try {
-    if (!req.session.wishlist) {
-      return res.redirect("/wishlist");
-    }
+    await WishlistItem.findByIdAndDelete({_id});
 
-    req.session.wishlist = req.session.wishlist.filter((id) => id !== productId);
-
-   
-    req.session.wishlistCount = req.session.wishlist.length;
-
-    req.flash("success", "Product Removed From Wishlist!.");
+    req.flash("success", "Product removed from wishlist!");
     res.redirect("/wishlist");
   } catch (error) {
-    req.flash("error", "product not remove from wishlist!.");
+    console.error("Error removing from wishlist:", error);
+    req.flash("error", "Product not removed from wishlist!");
     res.redirect("/wishlist");
   }
 });
