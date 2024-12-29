@@ -9,6 +9,7 @@ const CheckoutSchema = new mongoose.Schema({
   },
   billing: {
     name: String,
+    phone:String,
     email: String,
     address: String,
     city: String,

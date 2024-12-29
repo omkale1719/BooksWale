@@ -1,0 +1,96 @@
+.mydiv {
+    background-color: #eed7d7;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title-deleivery-unavailable {
+    color: #ff4d4d;
+    text-align: center;
+  }
+  
+  .unavailable-desc {
+    text-align: center;
+    font-size: 18px;
+  }
+  
+  .delivery-unavailable {
+    background-color: #fff;
+    padding: 30px;
+    margin-top: 20px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 20px;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Grid Layout for Multiple Records */
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .mydiv {
+    width: 100%;
+  }
+  
+  .curr_username,
+  .curr_email,
+  .customer-name,
+  .customer-email,
+  .customer-address,
+  .customer-payment-method,
+  .card-info {
+    margin: 8px 0;
+    font-size: 16px;
+  }
+  
+  .delivery_address {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .mydiv {
+      padding: 15px;
+    }
+  
+    .curr_username,
+    .curr_email,
+    .customer-name,
+    .customer-email,
+    .customer-address,
+    .customer-payment-method,
+    .card-info {
+      font-size: 14px;
+    }
+  
+    .delivery_address {
+      font-size: 16px;
+    }
+  
+    .title-deleivery-unavailable {
+      font-size: 28px;
+    }
+  
+    .unavailable-desc {
+      font-size: 16px;
+    }
+  }

@@ -1,114 +1,5 @@
-
-    <style>
-        /* Flash container styles */
-        .flash-container {
-            position: fixed;
-            top: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9999;
-            width: 90%;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 10px;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-        }
-
-        /* General flash message styles */
-        .flash-message {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 18px;
-            font-family: 'Arial', sans-serif;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transform: translateY(-30px);
-            animation: slideUp 0.6s ease-out forwards;
-        }
-
-        /* Success message styles */
-        .flash-message.success {
-            background-color: #28a745; /* Green */
-            border: 1px solid #218838;
-        }
-
-        /* Error message styles */
-        .flash-message.error {
-            background-color: #dc3545; /* Red */
-            border: 1px solid #c82333;
-        }
-
-        /* Close button styling */
-        .close-button {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 22px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.3s ease;
-            position: absolute;
-            top: -25px;
-            right: -24px;
-        }
-
-        /* Close button hover effect */
-        .close-button:hover {
-            color: #ddd;
-        }
-
-        /* Hidden message styles */
-        .flash-message.hidden {
-            display: none;
-        }
-
-        /* Slide up animation */
-        @keyframes slideUp {
-            0% {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Slide out animation */
-        @keyframes slideOut {
-            0% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-        }
-
-        /* Fade-in animation for containers */
-        .flash-container.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-
-
-        @media (max-width: 480px) {
-            .flash-container {
-            max-width: 600px;
-            }
-        }
-
-    </style>
-
+<link href="/css/flash.css" rel="stylesheet">
 <body>
-    <!-- Flash message container with a fixed height -->
     <div class="flash-container" id="flashContainerSuccess">
         <div class="flash-message success hidden" id="flashMessageSuccess">
             <span id="successMessage"></span>
@@ -124,12 +15,9 @@
     </div>
 
     <script>
-        // Assuming 'successMessage' and 'errorMessage' are passed from the server-side to client-side
         const success = "<%= success || '' %>";
         const error = "<%= error || '' %>";
-        
 
-        // Function to show the flash message with a smooth animation
         function showFlashMessage(id, message) {
             const flashMessage = document.getElementById(id);
             const flashContainer = flashMessage.parentElement;
@@ -137,37 +25,29 @@
             const messageElementId = id === 'flashMessageSuccess' ? 'successMessage' : 'errorMessage';
             document.getElementById(messageElementId).innerText = message;
 
-            // Make the container visible
             flashContainer.classList.add('visible');
-
-            // Show the flash message with an animation
             flashMessage.classList.remove('hidden');
             flashMessage.style.animation = 'slideUp 0.6s ease-out forwards';
 
-            // Set a timeout to hide the message after 5 seconds
             setTimeout(() => {
                 closeFlashMessage(id);
-            }, 5000); // 5000ms = 5 seconds
+            }, 5000);
         }
 
-        // Function to close the flash message with a smooth animation
         function closeFlashMessage(id) {
             const flashMessage = document.getElementById(id);
             const flashContainer = flashMessage.parentElement;
 
-            // Apply slide-out animation and then hide the message
             flashMessage.style.animation = 'slideOut 0.6s ease-in forwards';
 
-            // Wait for the animation to complete, then hide the container
             setTimeout(() => {
                 flashMessage.classList.add('hidden');
                 flashContainer.classList.remove('visible');
-            }, 600); // Match the duration of the slide-out animation (600ms)
+            }, 600);
         }
-  
-        // Check if there's a success or error message and show them
+
         if (success) {
-            showFlashMessage('flashMessageSuccess',success );
+            showFlashMessage('flashMessageSuccess', success);
         }
 
         if (error) {
@@ -175,4 +55,3 @@
         }
     </script>
 </body>
-

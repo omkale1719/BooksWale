@@ -38,12 +38,12 @@
     <div class="container"><%- body %></div>
     <!-- Footer -->
     <% if(curruser) {%>
-      <% if(curruser.username!=="iamadmin@open"){ %>
+      <% if(curruser.username!==Admin){ %>
     <%- include("../includes/footer.ejs") %>
     <% }} %>
 
     <% if(curruser) {%>
-      <% if(curruser.username=="iamadmin@open"){ %>
+      <% if(curruser.username==Admin){ %>
         <%- include("../includes/footer3.ejs") %>
         <% }} %>
 
@@ -60,6 +60,6 @@
 
     <!-- Local JavaScript -->
     <script src="/js/script.js"></script>
-    <script src="/js/detail.js"></script>
+    <!-- <script src="/js/detail.js"></script> -->
 </body>
 </html>

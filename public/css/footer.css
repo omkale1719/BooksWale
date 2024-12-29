@@ -244,6 +244,10 @@ footer {
     z-index: 10;
 }
 
+
+
+
+
 @media (max-width: 991px) {
     .quick-product {
         display: block;
@@ -256,13 +260,13 @@ footer {
     #cartbadge {
         position: absolute;
         top: -15px;
-        right: 81%;
+        right: 58%;
     }
 
     #wishlistbadge {
         position: absolute;
         top: -12px;
-        right: 57%;
+        right: 34%;
         transform: translateX(50%);
     }
 

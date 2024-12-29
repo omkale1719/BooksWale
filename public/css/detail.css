@@ -143,6 +143,7 @@
     transition: transform 0.3s ease;
 }
 
+
 @media(max-width: 448px) {
     .heartBtn {
         position: absolute;
@@ -222,8 +223,31 @@
     animation: modalFadeOut 0.5s ease-in-out;
 }
 
+
+@media (max-width: 400px) {
+.modal-content{
+    display: flex;
+}
+}
+
 @media (min-width: 768px) {
     .modal-content {
+        max-height: 70vh;
+        flex-direction: row;
+    }
+
+    .card-img-div {
+        max-height: 100%;
+        margin-bottom: 0;
+    }
+
+    .card-info {
+        padding-left: 20px;
+    }
+}
+@media (max-width: 768px) {
+    .modal-content {
+        max-height: 70vh;
         flex-direction: row;
     }
 
@@ -238,6 +262,7 @@
 }
 
 @media (max-width: 480px) {
+    
     .card-img-div {
         max-width: 200px;
     }

@@ -4,9 +4,9 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
-// =======================
+
 // Import Required Modules
-// =======================
+
 const express = require('express');
 const path = require("path");
 const ejsMate = require('ejs-mate');
@@ -20,9 +20,7 @@ const methodOverride = require('method-override');
 const multer = require('multer');
 const fs = require('fs');
 
-// =======================
 // Import Models
-// =======================
 const home = require("./models/home.js");
 const kids = require("./models/kids.js");
 const nonfiction = require("./models/nonfiction.js");
@@ -34,27 +32,19 @@ const reviews = require('./models/reviews.js');
 const customer = require("./models/customer.js");
 const user = require("./models/user.js");
 
-// =======================
 // Import Middleware
-// =======================
 const { isloggedIn, saveRedirectUrl, reviewOwner } = require('./middleware.js');
 
-// =======================
 // App Initialization
-// =======================
 const app = express();
 
-// =======================
 // View Engine Setup
-// =======================
 app.use(express.static('public'));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.engine('ejs', ejsMate);
 
-// =======================
 // Middleware Setup
-// =======================
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
@@ -62,9 +52,7 @@ app.use('/show_d/:id', express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// =======================
 // Multer Configuration
-// =======================
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, '/uploads'));
@@ -74,10 +62,9 @@ const storage = multer.diskStorage({
   }
 });
 
-// =======================
 // MongoDB Connection
-// =======================
 const mongoUrl = process.env.AtlasDb_Url;
+// const mongoUrl = ("mongodb://127.0.0.1:27017/Litbazzar");
 
 async function main() {
   try {
@@ -89,9 +76,7 @@ async function main() {
 }
 main();
 
-// =======================
 // Session and Flash Configuration
-// =======================
 const store = MongoStore.create({
   mongoUrl: mongoUrl,
   crypto: { secret: process.env.SECREAT },
@@ -113,9 +98,7 @@ app.use(
 );
 app.use(flash());
 
-// =======================
 // Passport Configuration
-// =======================
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new localstrategy(user.authenticate()));
@@ -134,19 +117,16 @@ passport.deserializeUser((id, done) => {
   });
 });
 
-// =======================
 // Global Variables Middleware
-// =======================
 app.use((req, res, next) => {
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   res.locals.curruser = req.user || null;
+  res.locals.Admin="iamadmin@open"
   next();
 });
 
-// =======================
 // Models Registry
-// =======================
 const models = {
   home: require("./models/home"),
   fiction: require("./models/fiction"),
@@ -167,9 +147,7 @@ global.categoryModels = {
   academic,
 };
 
-// =======================
 // Routes
-// =======================
 
 // Signup Route
 app.get("/signup", async (req, res) => {
@@ -200,9 +178,11 @@ app.post("/signup", async (req, res) => {
   } catch (e) {
     // Handle specific errors, such as user already existing
     if (e.name === "UserExistsError") {
-      req.flash("error", "User already exists. Please try a different email.");
+      req.flash("error", "User already exists. Please try a different username.");
+     
     } else {
       req.flash("error", "Something went wrong. Please try again.");
+     
     }
 
     res.redirect("/signup");
@@ -326,12 +306,18 @@ app.post("/add-to-cart", async (req, res) => {
 
     req.session.cart.push({ productId, image, title, author, description, price, quantity, category });
     req.session.cartCount = req.session.cart.length;
-
+    console.log(category);
     return res.json({ success: true, message: "Added to cart" });
   } catch (error) {
     return res.json({ success: false, message: "Error adding to cart" });
   }
 });
+
+
+app.get("/add_to_cart_message",(req,res)=>{
+  req.flash("success", " item added to cart!");
+  res.redirect("/");
+})
 
 // View Cart Route
 app.get("/cart", isloggedIn, (req, res) => {
@@ -369,21 +355,23 @@ app.get("/buy-now", isloggedIn, (req, res) => {
 // Process Checkout Route
 app.post("/pro-not-avai", async (req, res) => {
   try {
-    const { name, email, address, city, state, zipcode, paymentMethod } = req.body;
+    const { name,phone, email, address, city, state, zipcode, paymentMethod } = req.body;
 
     const currentDateTime = new Date();
     const newCheckout = new customer({
       currentDateTime,
       user: { _id: req.user._id, email: req.user.email, username: req.user.username },
-      billing: { name, email, address, city, state, zipcode },
+      billing: { name,phone,email, address, city, state, zipcode },
       payment: { method: paymentMethod },
     });
+
 
     await newCheckout.save();
 
     req.flash("success", "Checkout successful!");
     res.redirect("/pro-not-avai");
   } catch (error) {
+    console.log(error);
     req.flash("error", "Error processing checkout. Please try again.");
     res.redirect("/");
   }
@@ -448,24 +436,22 @@ app.post("/add-to-wishlist/:category", isloggedIn, async (req, res) => {
 
 // Wishlist Route
 app.get("/wishlist", async (req, res) => {
-  console.log("req.session.wishlist=", req.session.wishlist);
-
-  // Wishlist रिकामी असल्यास, वापरकर्त्याला Redirect करा.
+  
   if (!req.session.wishlist || req.session.wishlist.length === 0) {
     req.flash("error", "Empty Wishlist!.");
     return res.redirect("/Empty_wishlist");
   }
-
   try {
-    const wishlistProducts = []; // Wishlist साठी उत्पादने गोळा करण्यासाठी array
+    const wishlistProducts = []; 
 
-    // सर्व categories तपासा
+    
     for (let productId of req.session.wishlist) {
       for (let category in categoryModels) {
         const product = await categoryModels[category].findById(productId);
+        console.log("product  info=",product);
         if (product) {
           wishlistProducts.push(product);
-          break; // संबंधित category मिळाल्यावर पुढील category तपासू नका
+          break; 
         }
       }
     }
@@ -501,7 +487,7 @@ app.post("/remove-from-wishlist", isloggedIn, async (req, res) => {
 
     req.session.wishlist = req.session.wishlist.filter((id) => id !== productId);
 
-    // Wishlist count अपडेट करा
+   
     req.session.wishlistCount = req.session.wishlist.length;
 
     req.flash("success", "Product Removed From Wishlist!.");
@@ -536,17 +522,17 @@ app.post("/reviews/:category/:id/views", isloggedIn, async (req, res) => {
   try {
     const { category, id } = req.params;
 
-    const Model = models[category]; // मॉडेल निवडा (कॅटेगरीनुसार)
+    const Model = models[category]; 
     if (!Model) {
       return res.status(400).send("Invalid category in post");
     }
 
-    const book = await Model.findById(id); // पुस्तक शोधा
+    const book = await Model.findById(id); 
     if (!book) {
       return res.status(404).send("Book not found");
     }
 
-    const newReview = new reviews(req.body.review); // नवीन रिव्ह्यू तयार करा
+    const newReview = new reviews(req.body.review); 
     newReview.owner = req.user._id;
     book.reviews.push(newReview);
 
@@ -586,6 +572,8 @@ app.get("/aboutus", (req, res) => {
     cartcount: req.session.cartCount || 0
   });
 });
+
+
 // Admin Panel Routes
 
 // Route to render the form for adding a new listing
@@ -601,7 +589,7 @@ const upload = multer({ storage });
 app.post("/listings/new", upload.single('listing[image]'), async (req, res) => {
   console.log(req.body.listing);
   const { title, author, description, price, category } = req.body.listing;
-  const Model = models[category]; // Dynamically select the model based on category
+  const Model = models[category]; 
 
   if (!Model) {
       return res.status(400).send("Invalid category");
@@ -615,9 +603,10 @@ app.post("/listings/new", upload.single('listing[image]'), async (req, res) => {
           price,
           image: req.file ? '/uploads/' + req.file.filename : null, // Save the uploaded image path
       });
-      console.log(req.file); // Check uploaded file
+      console.log(req.file); 
 
       await newListing.save();
+      req.flash("success","New Listing Is Creted!")
       res.redirect(`/show_d/${newListing._id}/${category}`);
   } catch (error) {
       res.status(500).send("Failed to create listing: " + error.message);
@@ -626,18 +615,18 @@ app.post("/listings/new", upload.single('listing[image]'), async (req, res) => {
 
 // Route to render the form for editing a listing
 app.get("/listings/:id/:category/edit", async (req, res) => {
-  const { id, category } = req.params; // Extract ID and category from URL
-  const Model = models[category]; // Select model based on category
-
+  const { id, category } = req.params; 
+  const Model = models[category]; 
   if (!Model) {
       return res.status(400).send("Invalid category");
   }
 
   try {
-      const listing = await Model.findById(id); // Fetch data from database
+      const listing = await Model.findById(id); 
       if (!listing) {
           return res.status(404).send("Listing not found");
       }
+
       res.render("edit_product.ejs", {
           listing,
           category,
@@ -649,11 +638,11 @@ app.get("/listings/:id/:category/edit", async (req, res) => {
   }
 });
 
-// Route to handle updating a listing
+
 app.post("/listings/:id/:category", upload.single('listing[image]'), async (req, res) => {
   const { id, category } = req.params;
   const { title, author, description, price } = req.body.listing;
-  const Model = models[category]; // Select model based on category
+  const Model = models[category]; 
 
   if (!Model) {
       return res.status(400).send("Invalid category");
@@ -677,8 +666,8 @@ app.post("/listings/:id/:category", upload.single('listing[image]'), async (req,
       if (!updatedListing) {
           return res.status(404).send("Listing not found");
       }
-
-      res.redirect(`/show_d/${updatedListing._id}/${category}`); // Redirect after update
+      req.flash("success","Successfully Reacord Updated!")
+      res.redirect(`/show_d/${updatedListing._id}/${category}`); 
   } catch (error) {
       res.status(500).send("Failed to update listing: " + error.message);
   }
@@ -686,28 +675,26 @@ app.post("/listings/:id/:category", upload.single('listing[image]'), async (req,
 
 // Route to handle deleting a listing
 app.delete("/listings/:id/:category", async (req, res) => {
-  const { id, category } = req.params; // Extract listing ID and category
-  const Model = models[category]; // Select model based on category
-
+  const { id, category } = req.params; 
+  const Model = models[category]; 
   if (!Model) {
       return res.status(400).send("Invalid category");
   }
 
   try {
-      // Remove listing from MongoDB
+      
       const deletedListing = await Model.findByIdAndDelete(id);
 
       if (!deletedListing) {
           return res.status(404).send("Listing not found");
       }
 
-      // Remove associated image if exists in uploads folder
-      const imagePath = path.join(__dirname, deletedListing.image);
+       const imagePath = path.join(__dirname, deletedListing.image);
       if (fs.existsSync(imagePath)) {
-          fs.unlinkSync(imagePath); // Delete file
+          fs.unlinkSync(imagePath); 
       }
-
-      res.redirect("/"); // Redirect to listing page
+      req.flash("success","Reacord is deleted!")
+      res.redirect("/"); 
   } catch (error) {
       res.status(500).send("Failed to delete listing: " + error.message);
   }
