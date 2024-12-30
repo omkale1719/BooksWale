@@ -20,10 +20,10 @@
 
     <!-- Collapsible Navbar Content -->
     <div class="collapse navbar-collapse menu-list" id="navbarMain">
-      <!-- Search Bar and User Actions -->
+      
       <div class="container-fluid">
         <!-- Search Bar -->
-        <form  class="d-flex mx-auto align-items-center search-bar" role="search" style="max-width: 600px; width: 100%;">
+        <!-- <form  class="d-flex mx-auto align-items-center search-bar" role="search" style="max-width: 600px; width: 100%;">
           <input
             class="form-control me-2"
             type="search"
@@ -38,13 +38,12 @@
           >
             Search
           </button>
-        </form><br>
+        </form><br> -->
 
-        <ul class="navbar-nav mx-auto mt-3 mt-lg-0 justify-content-center">
+       
          
 
-
-        <ul class="navbar-nav mx-auto mt-3 mt-lg-0 justify-content-center">
+        <ul class="navbar-nav mx-auto mt-lg-0 justify-content-center navbar-categories">
           <li class="nav-item">
             <a class="nav-link pro" href="/#bestsellers">Books</a>
           </li>
@@ -55,13 +54,13 @@
             <a class="nav-link pro" href="/#Nonfiction">Nonfiction</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link pro" href="/#TA">Teens & YA</a>
+            <a class="nav-link pro" href="/#TA">Teens</a>
           </li>
           <li class="nav-item">
             <a class="nav-link pro" href="/#Kids">Kids</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link pro" href="/#RS">Religious & Spiritual</a>
+            <a class="nav-link pro" href="/#RS">Religious </a>
           </li>
           <li class="nav-item">
             <a class="nav-link pro" href="/#Academic">Academic</a>
@@ -75,7 +74,7 @@
       <!-- Product Categories -->
 <div class="container-fluid product-category" style="max-width: 25%; margin: 0 auto;">
   <!-- User Actions -->
-  <ul class="navbar-nav ms-auto d-flex justify-content-end">
+  <ul class=" user-actions navbar-nav ms-auto d-flex justify-content-end">
     <% if (curruser) { %>
       <% if (curruser.username === Admin) { %>
         <!-- Admin Actions -->
