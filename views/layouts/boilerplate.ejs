@@ -24,14 +24,15 @@
     <!-- Local CSS -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/detail.css">
-    <link rel="stylesheet" href="/css/navbar.css">
+    <!-- <link rel="stylesheet" href="/css/navbar.css"> -->
+    <link rel="stylesheet" href="/css/navbar2.css">
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/show_d.css">
     
 </head>
 <body>
     <!-- Navbar -->
-    <%- include("../includes/navbar.ejs") %>
+    <%- include("../includes/navbar2.ejs") %>
     <!-- Flash Messages -->
     <%- include("../includes/flash.ejs") %>
     <!-- Main Content -->
@@ -39,7 +40,7 @@
     <!-- Footer -->
     <% if(curruser) {%>
       <% if(curruser.username!==Admin){ %>
-    <%- include("../includes/footer.ejs") %>
+    <%- include("../includes/footer_section.ejs") %>
     <% }} %>
 
     <% if(curruser) {%>
@@ -48,7 +49,7 @@
         <% }} %>
 
     <% if(!curruser) {%>
-    <%- include("../includes/footer.ejs") %>
+    <%- include("../includes/footer_section.ejs") %>
     <% } %>
     <%- include("../includes/footer2.ejs") %>
     

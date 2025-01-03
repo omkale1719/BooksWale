@@ -1,24 +1,22 @@
-
 // Environment Configuration
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
-
 // Import Required Modules
 
-const express = require('express');
+const express = require("express");
 const path = require("path");
-const ejsMate = require('ejs-mate');
-const mongoose = require('mongoose');
+const ejsMate = require("ejs-mate");
+const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const localstrategy = require("passport-local");
 const MongoStore = require("connect-mongo");
 const flash = require("express-flash");
-const methodOverride = require('method-override');
-const multer = require('multer');
-const fs = require('fs');
+const methodOverride = require("method-override");
+const multer = require("multer");
+const fs = require("fs");
 
 // Import Models
 const home = require("./models/home.js");
@@ -28,41 +26,41 @@ const fiction = require("./models/fiction.js");
 const RS = require("./models/RS.js");
 const TY = require("./models/TA.js");
 const academic = require("./models/academic.js");
-const reviews = require('./models/reviews.js');
+const reviews = require("./models/reviews.js");
 const customer = require("./models/customer.js");
 const user = require("./models/user.js");
 const CartItem = require("./models/cart.js");
-const WishlistItem = require('./models/wishlist.js'); 
+const WishlistItem = require("./models/wishlist.js");
 
 // const wishlistItem=require("./models/wishlist.js")
 // Import Middleware
-const { isloggedIn, saveRedirectUrl, reviewOwner } = require('./middleware.js');
+const { isloggedIn, saveRedirectUrl, reviewOwner } = require("./middleware.js");
 
 // App Initialization
 const app = express();
 
 // View Engine Setup
-app.use(express.static('public'));
+app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-app.engine('ejs', ejsMate);
+app.engine("ejs", ejsMate);
 
 // Middleware Setup
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
-app.use('/show_d/:id', express.static(path.join(__dirname, "public")));
+app.use("/show_d/:id", express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Multer Configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '/uploads'));
+    cb(null, path.join(__dirname, "/uploads"));
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
-  }
+    cb(null, Date.now() + "-" + file.originalname);
+  },
 });
 
 // MongoDB Connection
@@ -122,10 +120,10 @@ passport.deserializeUser((id, done) => {
 
 // Global Variables Middleware
 app.use((req, res, next) => {
-  res.locals.success = req.flash('success');
-  res.locals.error = req.flash('error');
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
   res.locals.curruser = req.user || null;
-  res.locals.Admin="iamadmin@open";
+  res.locals.Admin = "iamadmin@open";
 
   next();
 });
@@ -182,11 +180,12 @@ app.post("/signup", async (req, res) => {
   } catch (e) {
     // Handle specific errors, such as user already existing
     if (e.name === "UserExistsError") {
-      req.flash("error", "User already exists. Please try a different username.");
-     
+      req.flash(
+        "error",
+        "User already exists. Please try a different username."
+      );
     } else {
       req.flash("error", "Something went wrong. Please try again.");
-     
     }
 
     res.redirect("/signup");
@@ -305,7 +304,16 @@ app.get("/show_d/:id/:category", async (req, res) => {
 
 app.post("/add-to-cart", async (req, res) => {
   try {
-    const { productId, image, title, author, description, price, quantity, category } = req.body;
+    const {
+      productId,
+      image,
+      title,
+      author,
+      description,
+      price,
+      quantity,
+      category,
+    } = req.body;
 
     const cartItem = new CartItem({
       user: { username: req.user.username },
@@ -316,31 +324,37 @@ app.post("/add-to-cart", async (req, res) => {
       description,
       price,
       quantity,
-      category
+      category,
     });
 
     await cartItem.save();
-    
-    req.session.cartCount = await CartItem.countDocuments({ "user.username": req.user.username });
+
+    req.session.cartCount = await CartItem.countDocuments({
+      "user.username": req.user.username,
+    });
 
     console.log("Saved to database:", category);
-    return res.json({ success: true, message: "Added to cart and saved to database" });
+    return res.json({
+      success: true,
+      message: "Added to cart and saved to database",
+    });
   } catch (error) {
     console.error("Error adding to cart:", error);
     return res.json({ success: false, message: "Error adding to cart" });
   }
 });
 
-
-app.get("/add_to_cart_message",(req,res)=>{
+app.get("/add_to_cart_message", (req, res) => {
   req.flash("success", " item added to cart!");
   res.redirect("/");
-})
+});
 
 // View Cart Route
 app.get("/cart", isloggedIn, async (req, res) => {
   try {
-    const cartProducts = await CartItem.find({ "user.username": req.user.username });
+    const cartProducts = await CartItem.find({
+      "user.username": req.user.username,
+    });
     req.session.cartCount = cartProducts.length;
     res.render("cart.ejs", {
       cart: cartProducts || [],
@@ -357,12 +371,16 @@ app.get("/cart", isloggedIn, async (req, res) => {
 app.post("/remove-from-cart/:id", isloggedIn, async (req, res) => {
   try {
     const { id } = req.params;
-    const deleteitem=await CartItem.findByIdAndDelete(id);
-    req.session.cartCount = await CartItem.countDocuments({ "user.username": req.user.username });
+    const deleteitem = await CartItem.findByIdAndDelete(id);
+    req.session.cartCount = await CartItem.countDocuments({
+      "user.username": req.user.username,
+    });
     req.flash("success", "Cart item removed successfully!");
     res.redirect("/cart");
   } catch (error) {
-    res.status(500).json({ success: false, message: "Error removing product from cart" });
+    res
+      .status(500)
+      .json({ success: false, message: "Error removing product from cart" });
   }
 });
 
@@ -377,16 +395,20 @@ app.get("/buy-now", isloggedIn, (req, res) => {
 // Process Checkout Route
 app.post("/pro-not-avai", async (req, res) => {
   try {
-    const { name,phone, email, address, city, state, zipcode, paymentMethod } = req.body;
+    const { name, phone, email, address, city, state, zipcode, paymentMethod } =
+      req.body;
 
     const currentDateTime = new Date();
     const newCheckout = new customer({
       currentDateTime,
-      user: { _id: req.user._id, email: req.user.email, username: req.user.username },
-      billing: { name,phone,email, address, city, state, zipcode },
+      user: {
+        _id: req.user._id,
+        email: req.user.email,
+        username: req.user.username,
+      },
+      billing: { name, phone, email, address, city, state, zipcode },
       payment: { method: paymentMethod },
     });
-
 
     await newCheckout.save();
 
@@ -464,11 +486,14 @@ app.post("/add-to-wishlist/:category", isloggedIn, async (req, res) => {
   }
 });
 
-
 app.get("/wishlist", isloggedIn, async (req, res) => {
   try {
-    const wishlistProducts = await WishlistItem.find({ "user.username": req.user.username });
-    req.session.wishlistCount = await WishlistItem.countDocuments({ "user.username": req.user.username });
+    const wishlistProducts = await WishlistItem.find({
+      "user.username": req.user.username,
+    });
+    req.session.wishlistCount = await WishlistItem.countDocuments({
+      "user.username": req.user.username,
+    });
 
     if (wishlistProducts.length === 0) {
       req.flash("error", "Empty Wishlist!");
@@ -490,16 +515,16 @@ app.get("/wishlist", isloggedIn, async (req, res) => {
 app.get("/Empty_wishlist", (req, res) => {
   res.render("Empty_wishlist.ejs", {
     wishlistCount: req.session.wishlistCount || 0,
-    cartcount: req.session.cartCount || 0
+    cartcount: req.session.cartCount || 0,
   });
 });
 
 // Remove a product from wishlist
 app.post("/remove-from-wishlist/:_id", isloggedIn, async (req, res) => {
-  const {_id}  = req.params;
+  const { _id } = req.params;
 
   try {
-    await WishlistItem.findByIdAndDelete({_id});
+    await WishlistItem.findByIdAndDelete({ _id });
 
     req.flash("success", "Product removed from wishlist!");
     res.redirect("/wishlist");
@@ -534,17 +559,17 @@ app.post("/reviews/:category/:id/views", isloggedIn, async (req, res) => {
   try {
     const { category, id } = req.params;
 
-    const Model = models[category]; 
+    const Model = models[category];
     if (!Model) {
       return res.status(400).send("Invalid category in post");
     }
 
-    const book = await Model.findById(id); 
+    const book = await Model.findById(id);
     if (!book) {
       return res.status(404).send("Book not found");
     }
 
-    const newReview = new reviews(req.body.review); 
+    const newReview = new reviews(req.body.review);
     newReview.owner = req.user._id;
     book.reviews.push(newReview);
 
@@ -559,156 +584,164 @@ app.post("/reviews/:category/:id/views", isloggedIn, async (req, res) => {
 });
 
 // Delete a review
-app.delete("/reviews/:category/:id/views/:reviewId", isloggedIn, reviewOwner, async (req, res) => {
-  try {
-    const { category, id, reviewId } = req.params;
+app.delete(
+  "/reviews/:category/:id/views/:reviewId",
+  isloggedIn,
+  reviewOwner,
+  async (req, res) => {
+    try {
+      const { category, id, reviewId } = req.params;
 
-    const Model = models[category];
-    if (!Model) {
-      return res.status(400).send("Invalid category in delete ");
+      const Model = models[category];
+      if (!Model) {
+        return res.status(400).send("Invalid category in delete ");
+      }
+
+      await Model.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+      await reviews.findByIdAndDelete(reviewId);
+      req.flash("error", "Review Deleted!.");
+      res.redirect(`/show_d/${id}/${category}`);
+    } catch (error) {
+      req.flash("error", "An error occurred while deleting the review!");
     }
-
-    await Model.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    await reviews.findByIdAndDelete(reviewId);
-    req.flash("error", "Review Deleted!.");
-    res.redirect(`/show_d/${id}/${category}`);
-  } catch (error) {
-    req.flash("error", "An error occurred while deleting the review!");
   }
-});
+);
 
 // About Us
 app.get("/aboutus", (req, res) => {
   res.render("aboutus.ejs", {
     wishlistCount: req.session.wishlistCount || 0,
-    cartcount: req.session.cartCount || 0
+    cartcount: req.session.cartCount || 0,
   });
 });
-
 
 // Admin Panel Routes
 
 // Route to render the form for adding a new listing
 app.get("/listings/new", (req, res) => {
   res.render("new_product.ejs", {
-      wishlistCount: req.session.wishlistCount || 0,
-      cartcount: req.session.cartCount || 0,
+    wishlistCount: req.session.wishlistCount || 0,
+    cartcount: req.session.cartCount || 0,
   });
 });
 
 // Route to handle new listing creation with file upload
 const upload = multer({ storage });
-app.post("/listings/new", upload.single('listing[image]'), async (req, res) => {
+app.post("/listings/new", upload.single("listing[image]"), async (req, res) => {
   console.log(req.body.listing);
   const { title, author, description, price, category } = req.body.listing;
-  const Model = models[category]; 
+  const Model = models[category];
 
   if (!Model) {
-      return res.status(400).send("Invalid category");
+    return res.status(400).send("Invalid category");
   }
 
   try {
-      const newListing = new Model({
-          title,
-          author,
-          description,
-          price,
-          image: req.file ? '/uploads/' + req.file.filename : null, // Save the uploaded image path
-      });
-      console.log(req.file); 
+    const newListing = new Model({
+      title,
+      author,
+      description,
+      price,
+      image: req.file ? "/uploads/" + req.file.filename : null, // Save the uploaded image path
+    });
+    console.log(req.file);
 
-      await newListing.save();
-      req.flash("success","New Listing Is Creted!")
-      res.redirect(`/show_d/${newListing._id}/${category}`);
+    await newListing.save();
+    req.flash("success", "New Listing Is Creted!");
+    res.redirect(`/show_d/${newListing._id}/${category}`);
   } catch (error) {
-      res.status(500).send("Failed to create listing: " + error.message);
+    res.status(500).send("Failed to create listing: " + error.message);
   }
 });
 
 // Route to render the form for editing a listing
 app.get("/listings/:id/:category/edit", async (req, res) => {
-  const { id, category } = req.params; 
-  const Model = models[category]; 
+  const { id, category } = req.params;
+  const Model = models[category];
   if (!Model) {
-      return res.status(400).send("Invalid category");
+    return res.status(400).send("Invalid category");
   }
 
   try {
-      const listing = await Model.findById(id); 
-      if (!listing) {
-          return res.status(404).send("Listing not found");
-      }
+    const listing = await Model.findById(id);
+    if (!listing) {
+      return res.status(404).send("Listing not found");
+    }
 
-      res.render("edit_product.ejs", {
-          listing,
-          category,
-          wishlistCount: req.session.wishlistCount || 0,
-          cartcount: req.session.cartCount || 0,
-      });
+    res.render("edit_product.ejs", {
+      listing,
+      category,
+      wishlistCount: req.session.wishlistCount || 0,
+      cartcount: req.session.cartCount || 0,
+    });
   } catch (error) {
-      res.status(500).send("Failed to load edit form: " + error.message);
+    res.status(500).send("Failed to load edit form: " + error.message);
   }
 });
 
+app.post(
+  "/listings/:id/:category",
+  upload.single("listing[image]"),
+  async (req, res) => {
+    const { id, category } = req.params;
+    const { title, author, description, price } = req.body.listing;
+    const Model = models[category];
 
-app.post("/listings/:id/:category", upload.single('listing[image]'), async (req, res) => {
-  const { id, category } = req.params;
-  const { title, author, description, price } = req.body.listing;
-  const Model = models[category]; 
-
-  if (!Model) {
+    if (!Model) {
       return res.status(400).send("Invalid category");
-  }
+    }
 
-  try {
+    try {
       const updatedData = {
-          title,
-          author,
-          description,
-          price
+        title,
+        author,
+        description,
+        price,
       };
 
       // Add new image if uploaded
       if (req.file) {
-          updatedData.image = '/uploads/' + req.file.filename;
+        updatedData.image = "/uploads/" + req.file.filename;
       }
 
       // Update the database
-      const updatedListing = await Model.findByIdAndUpdate(id, updatedData, { new: true });
+      const updatedListing = await Model.findByIdAndUpdate(id, updatedData, {
+        new: true,
+      });
       if (!updatedListing) {
-          return res.status(404).send("Listing not found");
+        return res.status(404).send("Listing not found");
       }
-      req.flash("success","Successfully Reacord Updated!")
-      res.redirect(`/show_d/${updatedListing._id}/${category}`); 
-  } catch (error) {
+      req.flash("success", "Successfully Reacord Updated!");
+      res.redirect(`/show_d/${updatedListing._id}/${category}`);
+    } catch (error) {
       res.status(500).send("Failed to update listing: " + error.message);
+    }
   }
-});
+);
 
 // Route to handle deleting a listing
 app.delete("/listings/:id/:category", async (req, res) => {
-  const { id, category } = req.params; 
-  const Model = models[category]; 
+  const { id, category } = req.params;
+  const Model = models[category];
   if (!Model) {
-      return res.status(400).send("Invalid category");
+    return res.status(400).send("Invalid category");
   }
 
   try {
-      
-      const deletedListing = await Model.findByIdAndDelete(id);
+    const deletedListing = await Model.findByIdAndDelete(id);
 
-      if (!deletedListing) {
-          return res.status(404).send("Listing not found");
-      }
+    if (!deletedListing) {
+      return res.status(404).send("Listing not found");
+    }
 
-       const imagePath = path.join(__dirname, deletedListing.image);
-      if (fs.existsSync(imagePath)) {
-          fs.unlinkSync(imagePath); 
-      }
-      req.flash("success","Reacord is deleted!")
-      res.redirect("/"); 
+    const imagePath = path.join(__dirname, deletedListing.image);
+    if (fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath);
+    }
+    req.flash("success", "Reacord is deleted!");
+    res.redirect("/");
   } catch (error) {
-      res.status(500).send("Failed to delete listing: " + error.message);
+    res.status(500).send("Failed to delete listing: " + error.message);
   }
 });
 

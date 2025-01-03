@@ -1,164 +1,54 @@
-/* Footer Styling */
-/* footer {
-    background: linear-gradient(90deg, red, #40c098); 
-    color: #f3f4f6; 
-    padding: 40px 20px;
-    font-family: 'Arial', sans-serif;
-    animation: fadeInFooter 2s ease-in-out;
+/* General Styling */
+.footer-section {
+    background: linear-gradient(90deg, red, #40c098);
+    padding: 20px;
     text-align: center;
-    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.25); 
-} */
-/* Keyframe Animation for Footer */
-/* @keyframes fadeInFooter {
-    0% {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-} */
-.no-dots {
-    list-style: none; 
-    padding: 0;       
-  }
-  
-/* .footer-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 0 auto;
-} */
-
-/* .footer-section {
-    flex: 1;
-    margin: 10px 20px;
-    min-width: 250px;
-    animation: slideIn 1s ease-out;
-}
-
-@keyframes slideIn {
-    0% {
-        transform: translateX(-50px);
-        opacity: 0;
-    }
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px auto;
+    width: 100%;
+    color: white;
+    margin-bottom: -20px;
 }
 
 .footer-section h4 {
     font-size: 1.5rem;
+    color: white;
     margin-bottom: 15px;
-    border-bottom: 2px solid #fff;
-    padding-bottom: 10px;
-    color: #161401;
-    animation: bounceTitle 1.5s infinite alternate;
-} */
-
-/* Bounce Animation for Title */
-/* @keyframes bounceTitle {
-    0% {
-        transform: translateY(0);
-    }
-    100% {
-        transform: translateY(-10px);
-    }
 }
 
-.footer-section ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 1rem;
-    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
-}
-
-.footer-section ul li a:hover {
-    color: #ffeb3b;
-    text-decoration: underline;
-    transform: scale(1.1);
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
 }
 
 .social-icons a {
-    padding: 20px;
-    color: #fff;
+    text-decoration: none;
+    color: #333;
     font-size: 1.5rem;
     transition: transform 0.3s ease, color 0.3s ease;
-    animation: pulse 2s infinite;
-} */
-
-/* Pulse Animation for Social Icons */
-/* @keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-    }
 }
 
 .social-icons a:hover {
-    animation: shake 0.5s ease-in-out, glow 0.5s infinite alternate;
-} */
+    color: #007bff;
+    transform: scale(1.2);
+}
 
-/* Shake Animation */
-/* @keyframes shake {
-    0%, 100% {
-        transform: scale(1.3) rotate(10deg) translateX(0);
+/* Responsive Design */
+@media (max-width: 480px) {
+    .footer-section h4 {
+        font-size: 1.2rem;
     }
-    25% {
-        transform: scale(1.3) rotate(10deg) translateX(-5px);
-    }
-    50% {
-        transform: scale(1.3) rotate(10deg) translateX(5px);
-    }
-    75% {
-        transform: scale(1.3) rotate(10deg) translateX(-5px);
-    }
-} */
 
-/* Glow Animation */
-/* @keyframes glow {
-    0% {
-        text-shadow: 0 0 5px #ffeb3b, 0 0 10px #ffeb3b, 0 0 20px #ffeb3b;
-    }
-    100% {
-        text-shadow: 0 0 15px #ffeb3b, 0 0 25px #ffeb3b, 0 0 40px #ffeb3b;
+    .social-icons a {
+        font-size: 1.2rem;
     }
 }
 
-.footer-bottom {
-    text-align: center;
-    margin-top: 30px;
-    border-top: 1px solid #fff;
-    padding-top: 10px;
-    font-size: 0.85rem;
-    color: #ccc;
-    animation: fadeInBottom 2s ease-in-out;
-}
-
-@keyframes fadeInBottom {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-} */
 
 
-
-
-
-
+/* seacond footer */
 
 
 

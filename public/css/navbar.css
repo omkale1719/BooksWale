@@ -36,7 +36,7 @@ margin-top: -55px;
 }
 
 /* Search Bar */
-.search-bar input {
+/* .search-bar input {
     border: 2px solid #adb5bd;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -58,7 +58,7 @@ margin-top: -55px;
     background-color: rgb(0, 0, 8);
     color: #f8f9fa;
     transform: scale(1.1);
-}
+} */
 
 /* Navbar Links */
 

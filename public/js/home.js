@@ -17,7 +17,7 @@ function setupScroll(divId, prevBtnId, nextBtnId, repeatCount) {
   duplicateCards(repeatCount);
 
   function scrollLeft() {
-      const scrollAmount = 250;
+      const scrollAmount = 400;
       if (bookRow.scrollLeft <= 0) {
           bookRow.scrollLeft += bookRow.scrollWidth / 2;
       }
@@ -28,7 +28,7 @@ function setupScroll(divId, prevBtnId, nextBtnId, repeatCount) {
   }
 
   function scrollRight() {
-      const scrollAmount = 250;
+      const scrollAmount = 400;
       if (bookRow.scrollLeft + bookRow.clientWidth >= bookRow.scrollWidth) {
           bookRow.scrollLeft -= bookRow.scrollWidth / 2;
       }
@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const wishlistForm = modal.querySelector(".wishlist-form");
       const wishlistInput = wishlistForm.querySelector("input[name='productId']");
       const closeBtn = modal.querySelector(".close-btn");
+      
 
       bookRow.addEventListener("click", (e) => {
           const card = e.target.closest(".custom-card");

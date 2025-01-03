@@ -1,290 +1,287 @@
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap");
 
 body {
-    font-family: "Merriweather", serif;
-    font-weight: 400;
-    font-style: normal;
-    line-height: 1.6;
-    letter-spacing: 0.5px;
-    color: #0f0000;
-    padding: 0;
-    margin: 0;
+  font-family: "Merriweather", serif;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+  color: #0f0000;
+  padding: 0;
+  margin: 0;
 }
 
-h1, h2, h3, h4, h5, h6, span, a, button {
-    font-family: "Merriweather", serif;
-    font-weight: 700;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+a,
+button {
+  font-family: "Merriweather", serif;
+  font-weight: 700;
 }
 
 p {
-    font-family: "Merriweather", serif;
-    font-weight: 300;
+  font-family: "Merriweather", serif;
+  font-weight: 300;
 }
 
 h1 {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #333;
-    text-transform: uppercase;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
 }
 
 .Books {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    overflow: hidden;
-    padding: 0;
-    margin: 0;
-    color: #0f0000;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  color: #0f0000;
 }
 
 .scroll-container {
-    display: flex;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    width: 100%;
-    padding: 0;
-    margin: 0;
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .scroll-container::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .scroll-container {
-    scrollbar-width: none;
+  scrollbar-width: none;
 }
 
 .custom-card {
-    flex-shrink: 0;
-    width: 200px;
-    margin: 0 10px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    background: #fff;
-    border-radius: 10px;
-    transition: transform 0.3s ease;
+  flex-shrink: 0;
+  width: 200px;
+  margin: 0 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  background: #fff;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
 }
 
 .custom-card:hover {
-    transform: translateY(-10px);
+  transform: translateY(-10px);
 }
 
 .custom-card a {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
 
 .custom-card img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 8px;
+  width: 100%;
+  height: 40vh;
+  object-fit: cover;
+  border-radius: 8px;
 }
-
-
-
-/* Default बटण शैली */
-.animated-btn {
-    font-size: 16px;
-    padding: 12px 20px;
-    border: 2px solid #007bff;
-    color: #007bff;
-    background: transparent;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    position: relative;
-    overflow: hidden;
-}
-
-/* हळूहळू रंग बदल */
-.animated-btn::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, #007bff, #0056b3);
-    z-index: 0;
-    transition: all 0.4s ease;
-}
-
-/* होव्हरवर अ‍ॅनिमेशन */
-.animated-btn:hover::before {
-    left: 0;
-}
-
-.animated-btn:hover {
-    color: #fff; /* मजकूराचा रंग पांढरा */
-    background: none;
-    border-color: #0056b3; /* बटणाचा बॉर्डर रंग */
-}
-
-/* अ‍ॅनिमेटेड टेक्स्ट */
-.animated-btn i, .animated-btn span {
-    position: relative;
-    z-index: 1; /* अ‍ॅनिमेशनच्या वर ठेवण्यासाठी */
-}
-
-/* क्लिक करताना लहान होण्याचा प्रभाव */
-.animated-btn:active {
-    transform: scale(0.95);
-}
-
-/* लहान स्क्रीनसाठी स्टाइल */
-@media (max-width: 576px) {
-    .animated-btn {
-        font-size: 14px;
-        padding: 10px 16px;
-        width: 100%; /* पूर्ण रुंदी */
-        text-align: center;
-    }
-}
-
 
 .showdetail {
-    margin-top: 10px;
-    padding: 10px;
-    text-align: center;
-    width: 100%;
-    border-radius: 5px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    display: none;
+  margin-top: 10px;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: none;
 }
 
 .showdetailbtn {
-    display: inline-block;
-    position: relative;
-    right: 10px;
-    width: 200px;
-    height: 50px;
-    background: linear-gradient(45deg, #6a11cb, #2575fc);
-    border-radius: 30px;
-    overflow: hidden;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transition: all 0.4s ease-in-out;
-    perspective: 1000px;
+  display: inline-block;
+  position: relative;
+  right: 10px;
+  width: 170px;
+  height: 50px;
+  background: linear-gradient(45deg, red, rgba(255, 0, 0, 0.647));
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s ease-in-out;
+  perspective: 1000px;
 }
 
 .showdetailbtn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -150%;
-    width: 300%;
-    height: 100%;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
-    transform: skewX(-45deg);
-    transition: all 0.5s ease;
-    z-index: 1;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 300%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0)
+  );
+  transform: skewX(-45deg);
+  transition: all 0.5s ease;
+  z-index: 1;
 }
 
 .showdetailbtn:hover::before {
-    left: 150%;
+  left: 150%;
 }
 
 .btn-text-front {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotateY(0deg);
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    text-transform: uppercase;
-    z-index: 2;
-    backface-visibility: hidden;
-    transition: transform 0.6s ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateY(0deg);
+  font-size: 13px;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  z-index: 2;
+  backface-visibility: hidden;
+  transition: transform 0.6s ease;
 }
 
 .btn-text-back {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotateY(180deg);
-    font-size: 16px;
-    font-weight: bold;
-    color: #fff;
-    text-transform: uppercase;
-    z-index: 2;
-    backface-visibility: hidden;
-    transition: transform 0.6s ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateY(180deg);
+  font-size: 13px;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  z-index: 2;
+  backface-visibility: hidden;
+  transition: transform 0.6s ease;
 }
 
 .showdetailbtn:hover .btn-text-front {
-    transform: translate(-50%, -50%) rotateY(-180deg);
+  transform: translate(-50%, -50%) rotateY(-180deg);
 }
 
 .showdetailbtn:hover .btn-text-back {
-    transform: translate(-50%, -50%) rotateY(0deg);
+  transform: translate(-50%, -50%) rotateY(0deg);
 }
 
 .showdetailbtn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 .showdetailbtn:hover .btn-text-front,
 .showdetailbtn:hover .btn-text-back {
-    transform-style: preserve-3d;
+  transform-style: preserve-3d;
 }
 
+@media (max-width: 991px) {
+  .custom-card {
+    width: 220px;
+    margin: 0 10px;
+    text-align: center;
+  }
+}
 @media (max-width: 768px) {
-    .showdetailbtn {
-        width: 150px;
-        height: 45px;
-    }
+  .custom-card {
+    width: 160px;
+    margin: 0 10px;
+    text-align: center;
+  }
 
-    .btn-text-front, .btn-text-back {
-        font-size: 14px;
-    }
-    .custom-card .showdetail{
-        display: block;
-    }
+  .custom-card img {
+    width: 100%;
+    height: 40vh;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .showdetailbtn {
+    width: 150px;
+    height: 45px;
+  }
+
+  .btn-text-front,
+  .btn-text-back {
+    font-size: 14px;
+  }
+  .custom-card .showdetail {
+    display: block;
+  }
+}
+
+@media (max-width: 560px) {
+  .custom-card {
+    width: 150px;
+    margin: 0 10px;
+    text-align: center;
+  }
+
+  .showdetailbtn {
+    width: 120px;
+    height: 45px;
+  }
+}
+
+@media (max-width: 460px) {
+  .custom-card {
+    width: 180px;
+    margin: 0 10px;
+  }
+  .custom-card img {
+    width: 100%;
+    height: 30vh;
+    object-fit: cover;
+    border-radius: 8px;
+  }
 }
 
 .custom-card:hover .showdetail {
-    display: block;
+  display: block;
 }
 
 .scroll-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    font-size: 24px;
-    padding: 10px 15px;
-    cursor: pointer;
-    z-index: 10;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  font-size: 24px;
+  padding: 10px 15px;
+  cursor: pointer;
+  z-index: 10;
 }
 
 .desc {
-    display: none;
-    transition: all 0.3s ease-in-out;
+  display: none;
+  transition: all 0.3s ease-in-out;
 }
 
 .price {
-    display: none;
-    transition: all 0.3s ease-in-out;
+  display: none;
+  transition: all 0.3s ease-in-out;
 }
 
 .left-btn {
-    left: 0;
+  left: 0;
 }
 
 .right-btn {
-    right: 0;
+  right: 0;
 }
 
 .scroll-btn:hover {
-    background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.7);
 }

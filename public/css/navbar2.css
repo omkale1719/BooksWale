@@ -1,0 +1,140 @@
+.navbar {
+  background: linear-gradient(90deg, red, #40c098);
+  }
+
+.logo img {
+  width: 200px;
+  height: 40px;
+  transition: transform 0.6s ease-in-out;
+}
+.logo img:hover {
+  transform: rotate(360deg);
+}
+  ::-webkit-scrollbar{
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track{
+    background-color: white;
+  }
+  ::-webkit-scrollbar-thumb{
+    background-color: lightyellow;
+    border-radius: 20px;
+  }
+  ::-webkit-scrollbar-corner{
+    background-color: black;
+  }
+
+  @media(min-width:991px){
+    .user-categories{
+       justify-content: center;
+      margin-right: 70px;
+    }
+    .user-action{
+      
+        margin-top: -30px;
+        font-size: 0.8rem;
+    }
+    .user-action .nav-item .nav-link{
+      margin: 20px 16px -30px 0;
+     
+    }
+    .user-action .nav-item .nav-link i{
+     font-size: 1.5rem;   
+    }
+    .wishlist-icon{
+        margin-left: 10px;
+    }
+    .user-action .wishlist-cart{
+        padding-bottom: -80px;
+        
+    }
+    .logo img {
+      width: 155px;
+      height: 40px;
+      transition: transform 0.6s ease-in-out;
+    }
+}
+
+
+  @media(max-width:991px){
+    .menu-list{
+      position: fixed;
+      top: 7%;
+      right: 0;
+      max-height: 60vh;
+      border-radius: 2px;
+      text-align: center;
+      background-color: grey;
+      width: 140px;
+      overflow-y: auto;
+      z-index: 1040;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      padding: 10px;
+    }
+    .user-action{
+     display: none;
+    }
+  }
+  @media(max-width:491px){
+    .menu-list{
+      position: fixed;
+      top: 6%;
+      right: 0;
+      max-height: 30vh;
+      border-radius: 2px;
+      text-align: center;
+      background-color: grey;
+      width: 140px;
+      overflow-y: auto;
+      z-index: 1040;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      padding: 10px;
+    }
+    
+  }
+
+
+  .wishlist-count{
+    background-color: white;
+    color: red;
+    position: absolute;
+    top: 11px;
+    right: 180px;
+    font-size: 7px;
+}
+.cart-count{
+    background-color: white;
+    color: red;
+    position: absolute;
+    top: 11px;
+    right: 100px;
+    font-size: 7px;
+}
+
+
+.user-categories .nav-item .nav-link{
+  font-size: 1rem;
+  color: white; 
+  transition: all 0.1.5s ease-in-out;
+}
+
+.user-categories .nav-item .nav-link:hover{
+  border-bottom: 1px solid white;
+  box-shadow: 0 -1px green inset; /* Adds animated effect */
+}
+
+.user-action .nav-item .nav-link{
+  color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
